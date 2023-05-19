@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import Event from "@/app/_utils/schemas/Event";
 
 export async function POST(req) {
-  connectDB();
+  await connectDB();
 
   const event = req;
 
@@ -19,6 +19,9 @@ export async function POST(req) {
     const savedEvent = await newEvent.save();
     NextResponse.json(savedEvent, { status: 200 });
   } catch (error) {
-    NextResponse.json("Saving event failed", error, { status: 400 });
+    NextResponse.json(
+      { message: "Saving event failed", error },
+      { status: 400 }
+    );
   }
 }

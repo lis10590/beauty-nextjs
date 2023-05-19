@@ -3,7 +3,7 @@ import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  connectDB();
+  await connectDB();
   console.log(req);
   const client = req;
 
@@ -23,10 +23,16 @@ export async function POST(req) {
       const savedClient = await newClient.save();
       NextResponse.json(savedClient, { status: 200 });
     } catch (err) {
-      NextResponse.json(err, "Saving client failed", { status: 400 });
+      NextResponse.json(
+        { err, message: "Saving client failed" },
+        { status: 400 }
+      );
     }
   } catch (error) {
     console.error(error);
-    NextResponse.json(error, "getting clients failed", { status: 400 });
+    NextResponse.json(
+      { error, message: "getting clients failed" },
+      { status: 400 }
+    );
   }
 }

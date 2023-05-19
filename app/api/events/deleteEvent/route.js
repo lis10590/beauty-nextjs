@@ -3,7 +3,7 @@ import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req) {
-  connectDB();
+  await connectDB();
   try {
     const event = Event.findByIdAndRemove(req.eventId);
     if (!event) {

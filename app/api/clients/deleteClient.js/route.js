@@ -3,7 +3,7 @@ import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req) {
-  connectDB();
+  await connectDB();
   try {
     const client = await Client.findByIdAndRemove(req.clientId);
     if (!client) {
@@ -13,6 +13,9 @@ export async function DELETE(req) {
     NextResponse.json({ id: req.clientId }, { status: 200 });
   } catch (error) {
     console.error(error);
-    NextResponse.json("removing client failed", error, { status: 400 });
+    NextResponse.json(
+      { message: "removing client failed", error },
+      { status: 400 }
+    );
   }
 }

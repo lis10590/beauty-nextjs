@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import Product from "@/app/_utils/schemas/Product";
 
 export async function POST() {
-  connectDB();
+  await connectDB();
   const product = req;
 
   const newProduct = await new Product({
@@ -25,10 +25,16 @@ export async function POST() {
       const savedProduct = await newProduct.save();
       NextResponse.json(savedProduct);
     } catch (err) {
-      NextResponse.json("Saving product failed", err, { status: 400 });
+      NextResponse.json(
+        { message: "Saving product failed", err },
+        { status: 400 }
+      );
     }
   } catch (error) {
     console.error(error);
-    NextResponse.json("error in find function", error, { status: 400 });
+    NextResponse.json(
+      { message: "error in find function", error },
+      { status: 400 }
+    );
   }
 }

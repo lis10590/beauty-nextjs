@@ -3,7 +3,7 @@ import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 
 export async function PUT(req) {
-  connectDB();
+  await connectDB();
 
   const { phoneNumber, productName } = req;
 
@@ -20,7 +20,7 @@ export async function PUT(req) {
   );
 
   if (result) {
-    NextResponse.json(result);
+    NextResponse.json(result, { status: 200 });
   } else {
     NextResponse.json("could not update purchased products", { status: 400 });
   }
