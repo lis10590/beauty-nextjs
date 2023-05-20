@@ -2,8 +2,9 @@
 import styles from "./page.module.css";
 import { useEffect } from "react";
 import axios from "axios";
+import image from "../public/tools.png";
 
-export default function Home() {
+export default function Welcome() {
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,4 +18,14 @@ export default function Home() {
 
     fetchData();
   }, []);
+
+  return (
+    <div
+      className={`${styles.welcomeDiv} d-flex flex-column align-items-center mt-3`}
+    >
+      <h1 className={styles.welcomeApp}>My Beauty Scheduler</h1>
+      <h2 className={styles.welcomeHeading}>Welcome</h2>
+      <img className={styles.welcomeImg} src={image.src}></img>
+    </div>
+  );
 }

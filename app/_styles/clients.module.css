@@ -1,0 +1,31 @@
+.clientCard {
+  width: 30rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #000;
+  height: fit-content;
+}
+
+.cardHeader {
+  background-color: #ffd1d1;
+  font-weight: bold;
+}
+
+.addButton {
+  background-color: #f14668;
+  border-color: #f14668;
+}
+
+.addButton:hover {
+  background-color: #9ba4b5;
+  border-color: white;
+}
+
+.deleteIcon:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+/* .clientsBody {
+    background-image: linear-gradient(to right, #ffe3e1, #ffd1d1, #ff9494);
+    height: inherit;
+  } */

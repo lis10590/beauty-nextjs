@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
 
-export default NextAuth({
+const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
@@ -30,3 +30,5 @@ export default NextAuth({
 
   secret: process.env.NEXTAUTH_SECRET,
 });
+
+export { handler as GET, handler as POST };

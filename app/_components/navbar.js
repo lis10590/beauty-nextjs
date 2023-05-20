@@ -24,31 +24,31 @@ const NavbarComp = () => {
           {data?.user && (
             <Nav className="me-auto">
               <Nav.Item>
-                <Link className={`${styles.navbarLink} me-3`} href="/Home">
+                <Link className={`${styles.navbarLink} me-3`} href="/home">
                   Home
                 </Link>
               </Nav.Item>
               <Nav.Item>
-                <Link className={`${styles.navbarLink} me-3`} href="/MyAccount">
+                <Link className={`${styles.navbarLink} me-3`} href="/myAccount">
                   {" "}
                   My Account
                 </Link>
               </Nav.Item>
               <Nav.Item>
-                <Link className={`${styles.navbarLink} me-3`} href="/Clients">
+                <Link className={`${styles.navbarLink} me-3`} href="/clients">
                   {" "}
                   Clients
                 </Link>
               </Nav.Item>
               <Nav.Item>
-                <Link className={`${styles.navbarLink} me-3`} href="/Products">
+                <Link className={`${styles.navbarLink} me-3`} href="/products">
                   Products
                 </Link>
               </Nav.Item>
               <Nav.Item>
                 <Link
                   className={`${styles.navbarLink} me-3`}
-                  href="/Treatments"
+                  href="/treatments"
                 >
                   {" "}
                   Treatments
@@ -61,14 +61,14 @@ const NavbarComp = () => {
                 </Link>
               </Nav.Item> */}
               <NavDropdown
-                title="Analytics"
+                title="analytics"
                 // id="basic-nav-dropdown"
                 className={`${styles.navbarDrop}`}
               >
                 <NavDropdown.Item>
                   <Link
                     className={`${styles.navbarLink} me-3`}
-                    href="/Analysis/ProductsPurchases"
+                    href="/analysis/productsPurchases"
                   >
                     Revenue by Purchased Products
                   </Link>
@@ -76,7 +76,7 @@ const NavbarComp = () => {
                 <NavDropdown.Item>
                   <Link
                     className={`${styles.navbarLink} me-3`}
-                    href="/Analysis/TreatmentsPurchases"
+                    href="/analysis/treatmentsPurchases"
                   >
                     Revenue by Treatments
                   </Link>
@@ -84,7 +84,7 @@ const NavbarComp = () => {
                 <NavDropdown.Item>
                   <Link
                     className={`${styles.navbarLink} me-3`}
-                    href="/Analysis/MonthlyRevenue"
+                    href="/analysis/monthlyRevenue"
                   >
                     Revenue by Month
                   </Link>
@@ -108,13 +108,13 @@ const NavbarComp = () => {
                 <Nav.Item>
                   <Link
                     className={`${styles.navbarLink} me-3`}
-                    href="/Register"
+                    href="/register"
                   >
                     Register
                   </Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Link className={styles.navbarLink} href="/Login">
+                  <Link className={styles.navbarLink} href="/login">
                     {" "}
                     Login
                   </Link>

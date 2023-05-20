@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
+.regCard {
+  width: 40rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #000;
+  height: fit-content;
+}
+
+.heading {
+  font-family: "Lobster", cursive;
+  color: #ee6983;
+  text-shadow: 1px 1px 0 black;
+}
+
+.saveButton {
+  background-color: #ff9494;
+  border-color: #ff9494;
+}
+
+.saveButton:hover {
+  background-color: #e90064;
+  border-color: #e90064;
+}
