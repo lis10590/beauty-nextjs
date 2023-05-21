@@ -4,9 +4,10 @@ import Treatment from "@/app/_utils/schemas/Treatment";
 
 export async function DELETE(req) {
   await connectDB();
+  const res = await req.json();
 
   try {
-    const treatment = Treatment.findByIdAndRemove(req.treatmentId);
+    const treatment = Treatment.findByIdAndRemove(res.treatmentId);
     if (!treatment) {
       return NextResponse.json("treatment was not found", { status: 400 });
     }

@@ -40,9 +40,9 @@ export const getClients = async () => {
 //delete a client
 export const deleteClient = async (clientId) => {
   try {
-    const res = await axios.delete(`${apiUrl}/api/clients/deleteClient`, {
-      data: { clientId },
-    });
+    const res = await axios.delete(
+      `${apiUrl}/api/clients/deleteClient?clientId=${clientId}`
+    );
     return res.data;
   } catch (err) {
     console.error(err);

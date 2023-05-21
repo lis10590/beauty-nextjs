@@ -4,7 +4,7 @@ import Treatment from "@/app/_utils/schemas/Treatment";
 
 export async function POST(req) {
   await connectDB();
-  const treatment = req;
+  const treatment = await req.json();
 
   const newTreatment = await new Treatment({
     treatmentName: treatment.treatmentName,

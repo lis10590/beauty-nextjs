@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function PUT(req) {
   await connectDB();
+  const res = await req.json();
 
-  const { phoneNumber, productName } = req;
+  const { phoneNumber, productName } = res;
 
   let result = await Client.findOneAndUpdate(
     { phoneNumber: phoneNumber },

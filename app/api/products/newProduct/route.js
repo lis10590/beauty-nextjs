@@ -4,7 +4,7 @@ import Product from "@/app/_utils/schemas/Product";
 
 export async function POST() {
   await connectDB();
-  const product = req;
+  const product = await req.json();
 
   const newProduct = await new Product({
     productName: product.productName,

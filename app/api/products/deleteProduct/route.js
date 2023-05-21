@@ -4,8 +4,9 @@ import Product from "@/app/_utils/schemas/Product";
 
 export async function DELETE(req) {
   await connectDB();
+  const res = await req.json();
   try {
-    const product = await Product.findByIdAndRemove(req.productId);
+    const product = await Product.findByIdAndRemove(res.productId);
     if (!product) {
       return NextResponse.json("product was not found", { status: 400 });
     }

@@ -11,9 +11,7 @@ const NavbarComp = () => {
 
   const onLogout = async () => {
     await signOut({ callbackUrl: "/" });
-    // await getSession();
-    // dispatch(logout());
-    // dispatch(reset());
+
     router.push("/");
   };
   return (
@@ -61,7 +59,7 @@ const NavbarComp = () => {
                 </Link>
               </Nav.Item> */}
               <NavDropdown
-                title="analytics"
+                title="Analytics"
                 // id="basic-nav-dropdown"
                 className={`${styles.navbarDrop}`}
               >

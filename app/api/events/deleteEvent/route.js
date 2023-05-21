@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(req) {
   await connectDB();
+  const res = await req.json();
   try {
-    const event = Event.findByIdAndRemove(req.eventId);
+    const event = Event.findByIdAndRemove(res.eventId);
     if (!event) {
       return NextResponse.json("event was not found", { status: 400 });
     }

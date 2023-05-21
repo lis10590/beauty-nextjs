@@ -51,7 +51,7 @@ const Login = () => {
         toast.error("wrong email or password!");
         console.log(data);
       } else {
-        router.push("/Home");
+        router.push("/home");
       }
     } catch (error) {
       toast.error(error);

@@ -5,7 +5,7 @@ import Event from "@/app/_utils/schemas/Event";
 export async function POST(req) {
   await connectDB();
 
-  const event = req;
+  const event = await req.json();
 
   const newEvent = await new Event({
     title: event.title,

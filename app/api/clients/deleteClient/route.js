@@ -4,13 +4,16 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(req) {
   await connectDB();
+  const { searchParams } = new URL(req.url);
+  const clientId = searchParams.get("clientId");
+
   try {
-    const client = await Client.findByIdAndRemove(req.clientId);
+    const client = await Client.findByIdAndRemove(clientId);
     if (!client) {
       return NextResponse.json("client was not found", { status: 400 });
     }
     console.log("Removed Client : ", client);
-    return NextResponse.json({ id: req.clientId }, { status: 200 });
+    return NextResponse.json({ id: clientId }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

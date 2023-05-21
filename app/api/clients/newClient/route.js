@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   await connectDB();
-  console.log(req);
-  const client = req;
+
+  const client = await req.json();
 
   const newClient = await new Client({
     fullName: client.fullName,

@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   await connectDB();
+  const res = await req.json();
 
-  const { firstName, lastName, email, password } = req;
+  const { firstName, lastName, email, password } = res;
   if (!firstName || !lastName || !email || !password) {
     return NextResponse.json(
       { message: "Please fill in all the fields" },
