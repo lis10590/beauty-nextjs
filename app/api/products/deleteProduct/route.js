@@ -7,11 +7,11 @@ export async function DELETE(req) {
   try {
     const product = await Product.findByIdAndRemove(req.productId);
     if (!product) {
-      NextResponse.json("product was not found", { status: 400 });
+      return NextResponse.json("product was not found", { status: 400 });
     }
     console.log("Removed Product : ", product);
-    NextResponse.json({ id: req.productId }, { status: 200 });
+    return NextResponse.json({ id: req.productId }, { status: 200 });
   } catch (error) {
-    NextResponse.json("removing product failed", error, { status: 400 });
+    return NextResponse.json("removing product failed", error, { status: 400 });
   }
 }

@@ -17,20 +17,20 @@ export async function POST(req) {
       phoneNumber: client.phoneNumber,
     });
     if (existingClient[0]) {
-      NextResponse.json("Client exists", { status: 400 });
+      return NextResponse.json("Client exists", { status: 400 });
     }
     try {
       const savedClient = await newClient.save();
-      NextResponse.json(savedClient, { status: 200 });
+      return NextResponse.json(savedClient, { status: 200 });
     } catch (err) {
-      NextResponse.json(
+      return NextResponse.json(
         { err, message: "Saving client failed" },
         { status: 400 }
       );
     }
   } catch (error) {
     console.error(error);
-    NextResponse.json(
+    return NextResponse.json(
       { error, message: "getting clients failed" },
       { status: 400 }
     );

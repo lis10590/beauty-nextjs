@@ -7,13 +7,13 @@ export async function DELETE(req) {
   try {
     const client = await Client.findByIdAndRemove(req.clientId);
     if (!client) {
-      NextResponse.json("client was not found", { status: 400 });
+      return NextResponse.json("client was not found", { status: 400 });
     }
     console.log("Removed Client : ", client);
-    NextResponse.json({ id: req.clientId }, { status: 200 });
+    return NextResponse.json({ id: req.clientId }, { status: 200 });
   } catch (error) {
     console.error(error);
-    NextResponse.json(
+    return NextResponse.json(
       { message: "removing client failed", error },
       { status: 400 }
     );

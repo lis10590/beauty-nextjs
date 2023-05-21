@@ -3,15 +3,35 @@ import { Card, Button } from "react-bootstrap";
 import styles from "../_styles/register.module.css";
 import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import InputComponent from "../_components/inputComponent";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useInput from "../_hooks/useInput";
 import { useRouter } from "next/navigation";
+import { register, reset } from "../_utils/store/auth";
 import { toast } from "react-toastify";
 
 const Register = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
+  //distructuring of states from redux store
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
   //email validation
   let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      router.push("/Home");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, router, dispatch]);
 
   //inputs distructuring for validation using custom hook useInput
   const {
@@ -74,7 +94,7 @@ const Register = () => {
       email: enteredEmail,
       password: enteredPassword,
     };
-    // dispatch(register(user));
+    dispatch(register(user));
   };
 
   return (

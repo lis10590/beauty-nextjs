@@ -17,9 +17,9 @@ export async function POST(req) {
 
   try {
     const savedEvent = await newEvent.save();
-    NextResponse.json(savedEvent, { status: 200 });
+    return NextResponse.json(savedEvent, { status: 200 });
   } catch (error) {
-    NextResponse.json(
+    return NextResponse.json(
       { message: "Saving event failed", error },
       { status: 400 }
     );

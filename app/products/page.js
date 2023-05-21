@@ -1,49 +1,51 @@
 "use client";
-import {
-  Card,
-  ListGroup,
-  Button,
-  Container,
-  Pagination,
-} from "react-bootstrap";
-import styles from "../_styles/clients.module.css";
+
+import { Card, Button, Table, Pagination } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { modalActions } from "../_utils/store/modal";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  selectAllClients,
-  getAllClients,
-  deleteOneClient,
-} from "../_utils/store/clients";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import AddClient from "../_components/addClient";
+  getAllProducts,
+  selectAllProducts,
+  deleteOneProduct,
+  reset,
+} from "../_utils/store/products";
+import { modalActions } from "../_utils/store/modal";
+import { useState, useEffect } from "react";
 import DeleteModal from "../_components/deleteModal";
-import Link from "next/link";
+import AddProduct from "../_components/addProducts";
+import styles from "../_styles/products.module.css";
 
-const Clients = () => {
+const Products = () => {
   const dispatch = useDispatch();
   const addModal = useSelector((state) => state.modal.addModalOpen);
   const deleteModal = useSelector((state) => state.modal.deleteModalOpen);
 
-  const [chosenClientId, setChosenClientId] = useState("");
-
-  const clients = useSelector(selectAllClients);
+  const [chosenProductId, setChosenProductId] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [clientsPerPage] = useState(5);
+  const [productsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(getAllClients());
+    dispatch(getAllProducts());
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch]);
 
-  const saveChosenClientId = (id) => {
-    setChosenClientId(id);
-  };
+  const products = useSelector(selectAllProducts);
 
-  const deleteClientHandler = (clientId) => {
-    dispatch(deleteOneClient(clientId));
-    dispatch(modalActions.deleteModalClose());
+  const tableHeadings = [
+    "Product Name",
+    "Manufacturer",
+    "Product Type",
+    "Product Group",
+    "Price (ILS)",
+    "",
+  ];
+
+  const saveProductId = (id) => {
+    setChosenProductId(id);
   };
 
   const closeAddModalHandler = () => {
@@ -56,7 +58,7 @@ const Clients = () => {
 
   const openDeleteModalHandler = (id) => {
     dispatch(modalActions.deleteModalOpen());
-    saveChosenClientId(id);
+    saveProductId(id);
   };
 
   const closeDeleteModalHandler = () => {
@@ -64,16 +66,16 @@ const Clients = () => {
   };
 
   // Calculate the index of the last client on the current page
-  const indexOfLastClient = currentPage * clientsPerPage;
+  const indexOfLastClient = currentPage * productsPerPage;
 
   // Calculate the index of the first client on the current page
-  const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+  const indexOfFirstClient = indexOfLastClient - productsPerPage;
 
   // Get the clients to display on the current page
-  const currentClients = clients.slice(indexOfFirstClient, indexOfLastClient);
+  const currentProducts = products.slice(indexOfFirstClient, indexOfLastClient);
 
   // Calculate the total number of pages based on the total number of clients
-  const totalPages = Math.ceil(clients.length / clientsPerPage);
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   // Calculate the page numbers to display in the pagination
   const pageNumbers = [];
@@ -103,10 +105,8 @@ const Clients = () => {
   };
 
   return (
-    <div
-      className={`${styles.clientsBody} d-flex flex-column align-items-center `}
-    >
-      <Card className={`${styles.clientCard} mt-5`}>
+    <div className="d-flex flex-column align-items-center">
+      <Card className="mt-5">
         <Card.Header
           className={`${styles.cardHeader} d-flex flex-column align-items-center`}
         >
@@ -116,42 +116,50 @@ const Clients = () => {
           >
             <FontAwesomeIcon icon={faPlus} />
           </Button>
-          Clients
+          Products
         </Card.Header>
-        <ListGroup>
-          {clients
-            ? currentClients.map((client) => {
+        <Card.Body>
+          <Table responsive="sm">
+            <thead>
+              <tr>
+                {tableHeadings.map((heading, index) => {
+                  return <th key={index}>{heading}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {currentProducts.map((product) => {
                 return (
-                  <ListGroup.Item
-                    key={client._id}
-                    className="d-flex flex-column align-items-center"
-                  >
-                    <Container
-                      className="d-flex justify-content-center"
-                      as={Link}
-                      href={`/clients/${client._id}`}
-                    >
-                      {client.fullName}
-                    </Container>
-
-                    <FontAwesomeIcon
-                      className={styles.deleteIcon}
-                      icon={faTrashCan}
-                      onClick={() => openDeleteModalHandler(client._id)}
-                    />
-                    <DeleteModal
-                      isOpen={deleteModal}
-                      onClose={closeDeleteModalHandler}
-                      onNoClick={closeDeleteModalHandler}
-                      onYesClick={() => deleteClientHandler(chosenClientId)}
-                    />
-                  </ListGroup.Item>
+                  <tr key={product._id}>
+                    <td>{product.productName}</td>
+                    <td>{product.manufacturer}</td>
+                    <td>{product.productType}</td>
+                    <td>{product.productGroup}</td>
+                    <td>{product.price}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        className={styles.deleteIcon}
+                        icon={faTrashCan}
+                        onClick={() => openDeleteModalHandler(product._id)}
+                      />
+                    </td>
+                  </tr>
                 );
-              })
-            : null}
-        </ListGroup>
+              })}
+            </tbody>
+          </Table>
+        </Card.Body>
       </Card>
-      <AddClient isOpen={addModal} onClose={closeAddModalHandler} />
+      <AddProduct isOpen={addModal} onClose={closeAddModalHandler} />
+      <DeleteModal
+        isOpen={deleteModal}
+        onClose={closeDeleteModalHandler}
+        onNoClick={closeDeleteModalHandler}
+        onYesClick={() => {
+          dispatch(deleteOneProduct(chosenProductId));
+          dispatch(modalActions.deleteModalClose());
+        }}
+      />
       <div className="d-flex justify-content-center my-3">
         <Pagination>
           <Pagination.Prev onClick={handlePrevPage} disabled={isPrevDisabled} />
@@ -182,4 +190,4 @@ const Clients = () => {
   );
 };
 
-export default Clients;
+export default Products;

@@ -1,20 +1,26 @@
 "use client";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-toastify/dist/ReactToastify.css";
 import NavbarComp from "./_components/navbar";
-import { AppProvider } from "./_utils/AppContext";
+import store from "./_utils/store";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <AppProvider>
+        <Provider store={store}>
           <SessionProvider>
             <NavbarComp />
+            <ToastContainer />
             {children}
           </SessionProvider>
-        </AppProvider>
+        </Provider>
       </body>
     </html>
   );

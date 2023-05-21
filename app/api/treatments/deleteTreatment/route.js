@@ -8,12 +8,12 @@ export async function DELETE(req) {
   try {
     const treatment = Treatment.findByIdAndRemove(req.treatmentId);
     if (!treatment) {
-      NextResponse.json("treatment was not found", { status: 400 });
+      return NextResponse.json("treatment was not found", { status: 400 });
     }
     console.log("Removed Treatment : ", treatment);
-    NextResponse.json({ id: req.treatmentId }, { status: 200 });
+    return NextResponse.json({ id: req.treatmentId }, { status: 200 });
   } catch (error) {
-    NextResponse.json(
+    return NextResponse.json(
       { message: "removing treatment failed", error },
       { status: 400 }
     );

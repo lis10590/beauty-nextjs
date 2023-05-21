@@ -19,20 +19,20 @@ export async function POST() {
       productName: product.productName,
     });
     if (existingProduct[0]) {
-      NextResponse.json("Product exists", { status: 400 });
+      return NextResponse.json("Product exists", { status: 400 });
     }
     try {
       const savedProduct = await newProduct.save();
-      NextResponse.json(savedProduct);
+      return NextResponse.json(savedProduct);
     } catch (err) {
-      NextResponse.json(
+      return NextResponse.json(
         { message: "Saving product failed", err },
         { status: 400 }
       );
     }
   } catch (error) {
     console.error(error);
-    NextResponse.json(
+    return NextResponse.json(
       { message: "error in find function", error },
       { status: 400 }
     );

@@ -41,10 +41,10 @@ export async function GET() {
   try {
     const results = await Client.aggregate(pipeline);
 
-    NextResponse.json(results, { status: 200 });
+    return NextResponse.json(results, { status: 200 });
   } catch (error) {
     console.error(error);
-    NextResponse.json(
+    return NextResponse.json(
       { message: "getting treatments sales failed", error },
       { status: 400 }
     );

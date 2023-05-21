@@ -9,8 +9,11 @@ export async function POST(req) {
   const { email, password } = req;
   const user = await User.findOne({ email });
   if (user && (await bcrypt.compare(password, user.password))) {
-    NextResponse.json(user, { status: 200 });
+    return NextResponse.json(user, { status: 200 });
   } else {
-    NextResponse.json({ message: "Wrong email or password!" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Wrong email or password!" },
+      { status: 400 }
+    );
   }
 }

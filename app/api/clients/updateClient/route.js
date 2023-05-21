@@ -20,8 +20,10 @@ export async function PUT(req) {
   );
 
   if (result) {
-    NextResponse.json(result, { status: 200 });
+    return NextResponse.json(result, { status: 200 });
   } else {
-    NextResponse.json("could not update purchased products", { status: 400 });
+    return NextResponse.json("could not update purchased products", {
+      status: 400,
+    });
   }
 }

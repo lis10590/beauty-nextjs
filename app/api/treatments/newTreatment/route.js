@@ -15,20 +15,20 @@ export async function POST(req) {
       treatmentName: treatment.treatmentName,
     });
     if (existingTreatment[0]) {
-      NextResponse.json("Treatment exists", { status: 400 });
+      return NextResponse.json("Treatment exists", { status: 400 });
     }
     try {
       const savedTreatment = await newTreatment.save();
-      NextResponse.json(savedTreatment, { status: 200 });
+      return NextResponse.json(savedTreatment, { status: 200 });
     } catch (err) {
-      NextResponse.json(
+      return NextResponse.json(
         { message: "Saving treatment failed", err },
         { status: 400 }
       );
     }
   } catch (error) {
     console.error(error);
-    NextResponse.json(
+    return NextResponse.json(
       { message: "error in find function", error },
       { status: 400 }
     );

@@ -7,12 +7,12 @@ export async function DELETE(req) {
   try {
     const event = Event.findByIdAndRemove(req.eventId);
     if (!event) {
-      NextResponse.json("event was not found", { status: 400 });
+      return NextResponse.json("event was not found", { status: 400 });
     }
     console.log("Removed Event : ", event);
-    NextResponse.json({ id: req.eventId });
+    return NextResponse.json({ id: req.eventId });
   } catch (error) {
-    NextResponse.json(
+    return NextResponse.json(
       { message: "removing event failed", error },
       { status: 400 }
     );

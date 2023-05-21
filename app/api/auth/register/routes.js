@@ -7,7 +7,7 @@ export async function POST(req) {
 
   const { firstName, lastName, email, password } = req;
   if (!firstName || !lastName || !email || !password) {
-    NextResponse.json(
+    return NextResponse.json(
       { message: "Please fill in all the fields" },
       { status: 400 }
     );
@@ -16,7 +16,10 @@ export async function POST(req) {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    NextResponse.json({ message: "User already exists" }, { status: 400 });
+    return NextResponse.json(
+      { message: "User already exists" },
+      { status: 400 }
+    );
   }
 
   //Hash password
@@ -33,7 +36,7 @@ export async function POST(req) {
   });
 
   if (user) {
-    NextResponse.json(
+    return NextResponse.json(
       {
         _id: user.id,
         firstName: user.firstName,
@@ -43,6 +46,6 @@ export async function POST(req) {
       { status: 200 }
     );
   } else {
-    NextResponse.json({ message: "Invalid user data" }, { status: 400 });
+    return NextResponse.json({ message: "Invalid user data" }, { status: 400 });
   }
 }

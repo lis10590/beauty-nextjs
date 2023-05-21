@@ -2,7 +2,7 @@ import { Modal, Button } from "react-bootstrap";
 import InputComponent from "./inputComponent";
 import { faUser, faMobilePhone } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { clientAddition } from "../store/clients";
+import { clientAddition } from "../_utils/store/clients";
 import useInput from "../_hooks/useInput";
 import styles from "../_styles/modals.module.css";
 
