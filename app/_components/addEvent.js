@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal, Button } from "react-bootstrap";
-import { clientAddition } from "../_utils/store/clients";
+import { clientAdditionFromCalendar } from "../_utils/store/clients";
 import { eventAddition } from "../_utils/store/events";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -59,7 +59,7 @@ const AddEvent = (props) => {
       newEvent.phoneNumber
     ) {
       dispatch(eventAddition(newEvent));
-      dispatch(clientAddition(newEvent));
+      dispatch(clientAdditionFromCalendar(newEvent));
     }
 
     props.onClose();

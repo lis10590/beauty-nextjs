@@ -18,7 +18,18 @@ export async function POST(req) {
       phoneNumber: client.phoneNumber,
     });
     if (existingClient[0]) {
-      return NextResponse.json("Client exists", { status: 400 });
+      let result = await Client.findOneAndUpdate(
+        { phoneNumber: client.phoneNumber },
+        {
+          $push: {
+            treatmentHistory: {
+              treatmentName: client.title,
+              date: new Date(),
+            },
+          },
+        }
+      );
+      return NextResponse.json(result, { status: 200 });
     }
     try {
       const savedClient = await newClient.save();
