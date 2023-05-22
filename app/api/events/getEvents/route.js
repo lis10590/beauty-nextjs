@@ -5,7 +5,6 @@ import Event from "@/app/_utils/schemas/Event";
 export async function GET() {
   await connectDB();
   const res = await Event.find({});
-  console.log(res);
 
   return NextResponse.json(res);
 }

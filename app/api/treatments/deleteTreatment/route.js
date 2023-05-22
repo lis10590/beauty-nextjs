@@ -4,15 +4,16 @@ import Treatment from "@/app/_utils/schemas/Treatment";
 
 export async function DELETE(req) {
   await connectDB();
-  const res = await req.json();
+  const { searchParams } = new URL(req.url);
+  const treatmentId = searchParams.get("treatmentId");
 
   try {
-    const treatment = Treatment.findByIdAndRemove(res.treatmentId);
+    const treatment = Treatment.findByIdAndRemove(treatmentId);
     if (!treatment) {
       return NextResponse.json("treatment was not found", { status: 400 });
     }
     console.log("Removed Treatment : ", treatment);
-    return NextResponse.json({ id: req.treatmentId }, { status: 200 });
+    return NextResponse.json({ id: treatmentId }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "removing treatment failed", error },

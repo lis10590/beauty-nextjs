@@ -29,9 +29,9 @@ export const getTreatments = async () => {
 //delete treatment
 export const deleteTreatment = async (treatmentId) => {
   try {
-    const res = await axios.delete(`${apiUrl}/api/treatments/deleteTreatment`, {
-      data: { treatmentId },
-    });
+    const res = await axios.delete(
+      `${apiUrl}/api/treatments/deleteTreatment?treatmentId=${treatmentId}`
+    );
     return res.data;
   } catch (err) {
     console.error(err);

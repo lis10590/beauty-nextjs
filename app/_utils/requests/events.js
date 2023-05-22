@@ -39,9 +39,9 @@ export const getEvents = async () => {
 //delete event
 export const deleteEvent = async (eventId) => {
   try {
-    const res = await axios.delete(`${apiUrl}/api/events/deleteEvent`, {
-      data: { eventId },
-    });
+    const res = await axios.delete(
+      `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`
+    );
     return res.data;
   } catch (err) {
     console.error(err);

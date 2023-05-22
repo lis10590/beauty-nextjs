@@ -20,6 +20,7 @@ const Home = () => {
   };
 
   const deleteEventHandler = (id) => {
+    console.log(id);
     dispatch(deleteOneEvent(id));
     dispatch(modalActions.deleteModalClose());
   };

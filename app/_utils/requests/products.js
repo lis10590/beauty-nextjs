@@ -24,9 +24,9 @@ export const getProducts = async () => {
 //delete product
 export const deleteProduct = async (productId) => {
   try {
-    const res = await axios.delete(`${apiUrl}/api/products/deleteProduct`, {
-      data: { productId },
-    });
+    const res = await axios.delete(
+      `${apiUrl}/api/products/deleteProduct?productId=${productId}`
+    );
     return res.data;
   } catch (err) {
     console.error(err);
