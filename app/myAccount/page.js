@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../_utils/store/auth";
 import { useSession } from "next-auth/react";
-const myAccount = () => {
+const MyAccount = () => {
   const dispatch = useDispatch();
   const { data } = useSession();
 
@@ -39,4 +39,4 @@ const myAccount = () => {
   );
 };
 
-export default myAccount;
+export default MyAccount;
