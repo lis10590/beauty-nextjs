@@ -14,10 +14,8 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const user = await axios.post(
-          "http://localhost:3000/api/auth/login",
-          credentials
-        );
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const user = await axios.post(`${apiUrl}/api/auth/login`, credentials);
 
         if (user) {
           console.log(user.data);
