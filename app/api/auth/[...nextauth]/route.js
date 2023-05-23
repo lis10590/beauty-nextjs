@@ -14,13 +14,14 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const user = axios.post(
+        const user = await axios.post(
           "http://localhost:3000/api/auth/login",
           credentials
         );
 
         if (user) {
-          return user;
+          console.log(user.data);
+          return user.data;
         } else {
           return null;
         }

@@ -8,7 +8,7 @@ export async function DELETE(req) {
   const treatmentId = searchParams.get("treatmentId");
 
   try {
-    const treatment = Treatment.findByIdAndRemove(treatmentId);
+    const treatment = await Treatment.findByIdAndRemove(treatmentId);
     if (!treatment) {
       return NextResponse.json("treatment was not found", { status: 400 });
     }

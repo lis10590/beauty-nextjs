@@ -8,3 +8,11 @@ export const postRegister = async (user) => {
 
   return res.data;
 };
+
+export const getUserByEmail = async (email) => {
+  const res = await axios.get(
+    `${apiUrl}/api/auth/getUserByEmail?email=${email}`
+  );
+
+  return res.data;
+};
