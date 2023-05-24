@@ -21,6 +21,7 @@ export async function PUT(req) {
   );
 
   if (result) {
+    console.log(result);
     return NextResponse.json(result, { status: 200 });
   } else {
     return NextResponse.json("could not update purchased products", {

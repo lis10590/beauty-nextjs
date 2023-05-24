@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import DeleteModal from "../_components/deleteModal";
 import AddTreatment from "../_components/addTreatment";
 import styles from "../_styles/treatments.module.css";
+import { getTreatments, deleteTreatment } from "../_utils/requests/treatments";
 
 const Treatments = () => {
   const dispatch = useDispatch();
@@ -23,15 +24,40 @@ const Treatments = () => {
   const tableHeadings = ["Treatment Name", "Price (ILS)"];
 
   const [chosenTreatmentId, setChosenTreatmentId] = useState("");
+  const [treatments, setTreatments] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllTreatments());
-    return () => {
-      dispatch(reset());
-    };
+    getAllTreatments();
+    // dispatch(getAllTreatments());
+    // return () => {
+    //   dispatch(reset());
+    // };
   }, [dispatch]);
 
-  const treatments = useSelector(selectAllTreatments);
+  const getAllTreatments = async () => {
+    try {
+      const data = await getTreatments();
+      setTreatments(data);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
+
+  // const treatments = useSelector(selectAllTreatments);
+
+  const deleteTreatmentHandler = () => {
+    // dispatch(deleteOneTreatment(chosenTreatmentId));
+    const updatedTreatments = treatments.filter(
+      (treatment) => treatment._id !== chosenTreatmentId
+    );
+    setTreatments(updatedTreatments);
+    deleteTreatment(chosenTreatmentId);
+    dispatch(modalActions.deleteModalClose());
+  };
+
+  const treatmentAdditionHandler = (newTreatment) => {
+    setTreatments([...treatments, newTreatment]);
+  };
 
   const saveTreatmentId = (id) => {
     setChosenTreatmentId(id);
@@ -96,15 +122,16 @@ const Treatments = () => {
           </Table>
         </Card.Body>
       </Card>
-      <AddTreatment isOpen={addModal} onClose={closeAddModalHandler} />
+      <AddTreatment
+        isOpen={addModal}
+        onClose={closeAddModalHandler}
+        addTreatment={treatmentAdditionHandler}
+      />
       <DeleteModal
         isOpen={deleteModal}
         onClose={closeDeleteModalHandler}
         onNoClick={closeDeleteModalHandler}
-        onYesClick={() => {
-          dispatch(deleteOneTreatment(chosenTreatmentId));
-          dispatch(modalActions.deleteModalClose());
-        }}
+        onYesClick={deleteTreatmentHandler}
       />
     </div>
   );

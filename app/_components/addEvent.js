@@ -3,6 +3,8 @@
 import { Modal, Button } from "react-bootstrap";
 import { clientAdditionFromCalendar } from "../_utils/store/clients";
 import { eventAddition } from "../_utils/store/events";
+import { addNewEvent } from "../_utils/requests/events";
+import { addNewClientFromCalendar } from "../_utils/requests/clients";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import InputComponent from "./inputComponent";
@@ -58,8 +60,11 @@ const AddEvent = (props) => {
       newEvent.fullName &&
       newEvent.phoneNumber
     ) {
-      dispatch(eventAddition(newEvent));
-      dispatch(clientAdditionFromCalendar(newEvent));
+      // dispatch(eventAddition(newEvent));
+      // dispatch(clientAdditionFromCalendar(newEvent));
+      props.addEvent(newEvent);
+      addNewEvent(newEvent);
+      addNewClientFromCalendar(newEvent);
     }
 
     props.onClose();

@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import DeleteModal from "../_components/deleteModal";
 import AddProduct from "../_components/addProducts";
 import styles from "../_styles/products.module.css";
+import { getProducts, deleteProduct } from "../_utils/requests/products";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -27,13 +28,28 @@ const Products = () => {
   const [productsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(getAllProducts());
-    return () => {
-      dispatch(reset());
-    };
-  }, [dispatch]);
+    getAllProducts();
+    // dispatch(getAllProducts());
+    // return () => {
+    //   dispatch(reset());
+    // };
+  }, []);
 
-  const products = useSelector(selectAllProducts);
+  // const products = useSelector(selectAllProducts);
+  const [products, setProducts] = useState([]);
+
+  const getAllProducts = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
+
+  const handleProductAddition = (newProduct) => {
+    setProducts([...products, newProduct]);
+  };
 
   const tableHeadings = [
     "Product Name",
@@ -104,6 +120,15 @@ const Products = () => {
     setCurrentPage((prev) => prev + 1);
   };
 
+  const deleteProductHandler = () => {
+    const updatedProducts = products.filter(
+      (product) => product._id !== chosenProductId
+    );
+    setProducts(updatedProducts);
+    deleteProduct(chosenProductId);
+    dispatch(modalActions.deleteModalClose());
+  };
+
   return (
     <div className="d-flex flex-column align-items-center">
       <Card className="mt-5">
@@ -150,15 +175,16 @@ const Products = () => {
           </Table>
         </Card.Body>
       </Card>
-      <AddProduct isOpen={addModal} onClose={closeAddModalHandler} />
+      <AddProduct
+        isOpen={addModal}
+        onClose={closeAddModalHandler}
+        addProduct={handleProductAddition}
+      />
       <DeleteModal
         isOpen={deleteModal}
         onClose={closeDeleteModalHandler}
         onNoClick={closeDeleteModalHandler}
-        onYesClick={() => {
-          dispatch(deleteOneProduct(chosenProductId));
-          dispatch(modalActions.deleteModalClose());
-        }}
+        onYesClick={deleteProductHandler}
       />
       <div className="d-flex justify-content-center my-3">
         <Pagination>

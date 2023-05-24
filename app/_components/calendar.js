@@ -1,7 +1,7 @@
 "use client";
-import { useSelector, useDispatch } from "react-redux";
-import { selectAllEvents, getAllEvents } from "../_utils/store/events";
-import { useEffect } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { selectAllEvents, getAllEvents } from "../_utils/store/events";
+
 import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
@@ -22,23 +22,19 @@ const localizer = dateFnsLocalizer({
 });
 
 const BigCalendar = (props) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const saveChosenEvent = (event) => {
     props.deleteModal(event._id);
   };
 
-  useEffect(() => {
-    dispatch(getAllEvents());
-  }, [dispatch]);
-
-  const events = useSelector(selectAllEvents);
+  console.log(props.events);
 
   return (
     <div className="d-flex justify-content-center">
       <Calendar
         className={styles.calendar}
         localizer={localizer}
-        events={events}
+        events={props.events}
         startAccessor="start"
         endAccessor="end"
         style={{

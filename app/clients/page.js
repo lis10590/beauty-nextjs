@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import AddClient from "../_components/addClient";
 import DeleteModal from "../_components/deleteModal";
 import Link from "next/link";
+import { getClients, deleteClient } from "../_utils/requests/clients";
 
 const Clients = () => {
   const dispatch = useDispatch();
@@ -27,22 +28,40 @@ const Clients = () => {
   const deleteModal = useSelector((state) => state.modal.deleteModalOpen);
 
   const [chosenClientId, setChosenClientId] = useState("");
+  const [clients, setClients] = useState([]);
 
-  const clients = useSelector(selectAllClients);
+  // const clients = useSelector(selectAllClients);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [clientsPerPage] = useState(5);
 
   useEffect(() => {
-    dispatch(getAllClients());
-  }, [dispatch]);
+    // dispatch(getAllClients());
+    getAllClients();
+  }, []);
+
+  const getAllClients = async () => {
+    try {
+      const data = await getClients();
+      setClients(data);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
+
+  const handleClientAddition = (newClient) => {
+    setClients([...clients, newClient]);
+  };
 
   const saveChosenClientId = (id) => {
     setChosenClientId(id);
   };
 
   const deleteClientHandler = (clientId) => {
-    dispatch(deleteOneClient(clientId));
+    // dispatch(deleteOneClient(clientId));
+    const updatedClients = clients.filter((client) => client._id !== clientId);
+    setClients(updatedClients);
+    deleteClient(clientId);
     dispatch(modalActions.deleteModalClose());
   };
 
@@ -151,7 +170,11 @@ const Clients = () => {
             : null}
         </ListGroup>
       </Card>
-      <AddClient isOpen={addModal} onClose={closeAddModalHandler} />
+      <AddClient
+        isOpen={addModal}
+        onClose={closeAddModalHandler}
+        addClient={handleClientAddition}
+      />
       <div className="d-flex justify-content-center my-3">
         <Pagination>
           <Pagination.Prev onClick={handlePrevPage} disabled={isPrevDisabled} />

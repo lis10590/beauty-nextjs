@@ -8,27 +8,46 @@ import {
   getClientById,
 } from "../_utils/store/clients";
 
+import { updateClient, getClient } from "../_utils/requests/clients";
+import { getProducts } from "../_utils/requests/products";
+
 const AddPurchasedProducts = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllProducts());
-  }, [dispatch]);
+    // dispatch(getAllProducts());
+    getAllProducts();
+  }, []);
 
   const [drop, setDrop] = useState("Products");
-  const products = useSelector(selectAllProducts);
+  const [products, setProducts] = useState([]);
+
+  // const products = useSelector(selectAllProducts);
+
+  const getAllProducts = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
 
   const onSelectDrop = (event) => {
     setDrop(event);
   };
 
-  const onSaveClick = () => {
+  const onSaveClick = async () => {
     const obj = {
       phoneNumber: props.client.phoneNumber,
       productName: drop,
     };
 
-    dispatch(purchasedProductsUpdate(obj));
+    // dispatch(purchasedProductsUpdate(obj));
+    await updateClient(obj);
+    const id = await getClient(props.client._id);
+    console.log(id);
     props.onClose();
+    props.updateClient(id);
   };
 
   return (

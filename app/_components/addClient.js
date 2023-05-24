@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { clientAddition } from "../_utils/store/clients";
 import useInput from "../_hooks/useInput";
 import styles from "../_styles/modals.module.css";
+import { addNewClient } from "../_utils/requests/clients";
 
 const AddClient = (props) => {
   const dispatch = useDispatch();
@@ -35,7 +36,9 @@ const AddClient = (props) => {
         fullName,
         phoneNumber,
       };
-      dispatch(clientAddition(client));
+      // dispatch(clientAddition(client));
+      props.addClient(client);
+      addNewClient(client);
       props.onClose();
       resetFullName();
       resetPhoneNumber();

@@ -4,6 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import InputComponent from "./inputComponent";
 import { useDispatch } from "react-redux";
 import { productAddition } from "../_utils/store/products";
+import { addNewProduct } from "../_utils/requests/products";
 import useInput from "../_hooks/useInput";
 import styles from "../_styles/modals.module.css";
 import {
@@ -59,7 +60,7 @@ const AddProduct = (props) => {
 
   const dispatch = useDispatch();
 
-  const addNewProductHandler = (event) => {
+  const addNewProductHandler = async (event) => {
     event.preventDefault();
     if (
       !productNameInputHasError &&
@@ -75,7 +76,9 @@ const AddProduct = (props) => {
         productGroup,
         price,
       };
-      dispatch(productAddition(product));
+      // dispatch(productAddition(product));
+      props.addProduct(product);
+      await addNewProduct(product);
 
       props.onClose();
       resetProductName();

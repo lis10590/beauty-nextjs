@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { getClientById, selectAllClients } from "../../_utils/store/clients";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Button, ListGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,21 +9,48 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "../../_styles/clients.module.css";
 import { modalActions } from "../../_utils/store/modal";
 import AddPurchasedProducts from "../../_components/addPurchasedProducts";
-
+import { getClient, getClients } from "../../_utils/requests/clients";
 const ClientDetails = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const clientId = params.clientId;
+  console.log(clientId);
 
-  const client = useSelector((state) => state.clients.client);
+  // const client = useSelector((state) => state.clients.client);
   const addModal = useSelector((state) => state.modal.addModalOpen);
-  const clients = useSelector(selectAllClients);
-
+  // const clients = useSelector(selectAllClients);
+  const [client, setClient] = useState({});
+  const [clients, setClients] = useState([]);
   useEffect(() => {
     if (clientId) {
-      dispatch(getClientById(clientId));
+      // dispatch(getClientById(clientId));
+      getAllClients();
+      getClientById(clientId);
     }
-  }, [dispatch, clients]);
+  }, []);
+
+  const getAllClients = async () => {
+    try {
+      const data = await getClients();
+      setClients(data);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
+
+  const getClientById = async (id) => {
+    try {
+      const data = await getClient(id);
+      setClient(data);
+      console.log(client);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
+
+  const handleUpdateClient = (update) => {
+    setClient(update);
+  };
 
   const closeAddModalHandler = () => {
     dispatch(modalActions.addModalClose());
@@ -90,6 +117,7 @@ const ClientDetails = () => {
         isOpen={addModal}
         onClose={closeAddModalHandler}
         client={client ? client : null}
+        updateClient={handleUpdateClient}
       />
     </div>
   );

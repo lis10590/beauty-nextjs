@@ -5,12 +5,35 @@ import styles from "../_styles/home.module.css";
 import AddEvent from "../_components/addEvent";
 import { modalActions } from "../_utils/store/modal";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteModal from "../_components/deleteModal";
 import { deleteOneEvent } from "../_utils/store/events";
+import { getEvents, deleteEvent } from "../_utils/requests/events";
+
 const Home = () => {
   const dispatch = useDispatch();
   const [chosenEvent, setChosenEvent] = useState("");
+
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // dispatch(getAllEvents());
+
+    getAllEvents();
+  }, []);
+
+  const getAllEvents = async () => {
+    try {
+      const data = await getEvents();
+      setEvents(data);
+    } catch (error) {
+      // Handle the error if needed
+    }
+  };
+
+  const handleEventAddition = (newEvent) => {
+    setEvents([...events, newEvent]);
+  };
 
   const addModal = useSelector((state) => state.modal.addModalOpen);
   const deleteModal = useSelector((state) => state.modal.deleteModalOpen);
@@ -21,7 +44,10 @@ const Home = () => {
 
   const deleteEventHandler = (id) => {
     console.log(id);
-    dispatch(deleteOneEvent(id));
+    // dispatch(deleteOneEvent(id));
+    const updatedEvents = events.filter((event) => event._id !== id);
+    setEvents(updatedEvents);
+    deleteEvent(id);
     dispatch(modalActions.deleteModalClose());
   };
   const closeAddModalHandler = () => {
@@ -47,8 +73,12 @@ const Home = () => {
           Add Appointment
         </Button>
       </div>
-      <BigCalendar deleteModal={openDeleteModalHandler} />
-      <AddEvent isOpen={addModal} onClose={closeAddModalHandler} />
+      <BigCalendar deleteModal={openDeleteModalHandler} events={events} />
+      <AddEvent
+        isOpen={addModal}
+        onClose={closeAddModalHandler}
+        addEvent={handleEventAddition}
+      />
       <DeleteModal
         isOpen={deleteModal}
         onClose={closeDeleteModalHandler}

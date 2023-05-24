@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import useInput from "../_hooks/useInput";
 import styles from "../_styles/modals.module.css";
 import { treatmentAddition } from "../_utils/store/treatments";
+import { addNewTreatment } from "../_utils/requests/treatments";
 import { faShoppingBag, faShekelSign } from "@fortawesome/free-solid-svg-icons";
 
 const AddTreatment = (props) => {
@@ -36,7 +37,9 @@ const AddTreatment = (props) => {
         treatmentName,
         price,
       };
-      dispatch(treatmentAddition(treatment));
+      props.addTreatment(treatment);
+      addNewTreatment(treatment);
+      // dispatch(treatmentAddition(treatment));
       props.onClose();
       resetTreatmentName();
       resetPrice();
