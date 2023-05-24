@@ -29,22 +29,28 @@ export async function POST(req) {
           },
         }
       );
-      return NextResponse.json(result, { status: 200 });
+      return NextResponse.json(result, {
+        status: 200,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     }
     try {
       const savedClient = await newClient.save();
-      return NextResponse.json(savedClient, { status: 200 });
+      return NextResponse.json(savedClient, {
+        status: 200,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     } catch (err) {
       return NextResponse.json(
         { err, message: "Saving client failed" },
-        { status: 400 }
+        { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
       );
     }
   } catch (error) {
     console.error(error);
     return NextResponse.json(
       { error, message: "getting clients failed" },
-      { status: 400 }
+      { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
     );
   }
 }

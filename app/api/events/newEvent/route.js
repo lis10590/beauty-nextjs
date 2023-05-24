@@ -17,11 +17,14 @@ export async function POST(req) {
 
   try {
     const savedEvent = await newEvent.save();
-    return NextResponse.json(savedEvent, { status: 200 });
+    return NextResponse.json(savedEvent, {
+      status: 200,
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
   } catch (error) {
     return NextResponse.json(
       { message: "Saving event failed", error },
-      { status: 400 }
+      { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
     );
   }
 }

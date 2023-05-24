@@ -10,14 +10,20 @@ export async function DELETE(req) {
   try {
     const event = await Event.findByIdAndRemove(eventId);
     if (!event) {
-      return NextResponse.json("event was not found", { status: 400 });
+      return NextResponse.json("event was not found", {
+        status: 400,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     }
     console.log("Removed Event : ", event);
-    return NextResponse.json({ id: eventId }, { status: 200 });
+    return NextResponse.json(
+      { id: eventId },
+      { status: 200, headers: { "Access-Control-Allow-Origin": "*" } }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: "removing event failed", error },
-      { status: 400 }
+      { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
     );
   }
 }

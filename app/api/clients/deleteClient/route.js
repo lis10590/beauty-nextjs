@@ -1,6 +1,7 @@
 import Client from "@/app/_utils/schemas/Client";
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
+import { headers } from "next/dist/client/components/headers";
 
 export async function DELETE(req) {
   await connectDB();
@@ -10,7 +11,10 @@ export async function DELETE(req) {
   try {
     const client = await Client.findByIdAndRemove(clientId);
     if (!client) {
-      return NextResponse.json("client was not found", { status: 400 });
+      return NextResponse.json("client was not found", {
+        status: 400,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     }
     console.log("Removed Client : ", client);
     return NextResponse.json({ id: clientId }, { status: 200 });

@@ -22,10 +22,14 @@ export async function PUT(req) {
 
   if (result) {
     console.log(result);
-    return NextResponse.json(result, { status: 200 });
+    return NextResponse.json(result, {
+      status: 200,
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
   } else {
     return NextResponse.json("could not update purchased products", {
       status: 400,
+      headers: { "Access-Control-Allow-Origin": "*" },
     });
   }
 }

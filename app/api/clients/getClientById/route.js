@@ -10,7 +10,10 @@ export async function GET(req) {
   try {
     const client = await Client.findById(clientId);
 
-    return NextResponse.json(client, { status: 200 });
+    return NextResponse.json(client, {
+      status: 200,
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

@@ -19,7 +19,10 @@ export async function POST(req) {
       productName: product.productName,
     });
     if (existingProduct[0]) {
-      return NextResponse.json("Product exists", { status: 400 });
+      return NextResponse.json("Product exists", {
+        status: 400,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     }
     try {
       const savedProduct = await newProduct.save();
@@ -27,14 +30,14 @@ export async function POST(req) {
     } catch (err) {
       return NextResponse.json(
         { message: "Saving product failed", err },
-        { status: 400 }
+        { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
       );
     }
   } catch (error) {
     console.error(error);
     return NextResponse.json(
       { message: "error in find function", error },
-      { status: 400 }
+      { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
     );
   }
 }

@@ -10,14 +10,20 @@ export async function DELETE(req) {
   try {
     const treatment = await Treatment.findByIdAndRemove(treatmentId);
     if (!treatment) {
-      return NextResponse.json("treatment was not found", { status: 400 });
+      return NextResponse.json("treatment was not found", {
+        status: 400,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     }
     console.log("Removed Treatment : ", treatment);
-    return NextResponse.json({ id: treatmentId }, { status: 200 });
+    return NextResponse.json(
+      { id: treatmentId },
+      { status: 200, headers: { "Access-Control-Allow-Origin": "*" } }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: "removing treatment failed", error },
-      { status: 400 }
+      { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
     );
   }
 }
