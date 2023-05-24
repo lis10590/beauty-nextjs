@@ -41,7 +41,10 @@ export const getClients = async () => {
 export const deleteClient = async (clientId) => {
   try {
     const res = await axios.delete(
-      `${apiUrl}/api/clients/deleteClient?clientId=${clientId}`
+      `${apiUrl}/api/clients/deleteClient?clientId=${clientId}`,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
     );
     return res.data;
   } catch (err) {
@@ -51,7 +54,9 @@ export const deleteClient = async (clientId) => {
 //update client data
 export const updateClient = async (client) => {
   try {
-    const res = await axios.put(`${apiUrl}/api/clients/updateClient`, client);
+    const res = await axios.put(`${apiUrl}/api/clients/updateClient`, client, {
+      headers: { "Cache-Control": "no-cache" },
+    });
     return res.data;
   } catch (err) {
     console.error(err);
@@ -60,7 +65,9 @@ export const updateClient = async (client) => {
 
 export const getPurchasedProducts = async () => {
   try {
-    const res = await axios.get(`${apiUrl}/api/clients/getPurchasedProducts`);
+    const res = await axios.get(`${apiUrl}/api/clients/getPurchasedProducts`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
 
     return res.data;
   } catch (err) {
@@ -71,7 +78,10 @@ export const getPurchasedProducts = async () => {
 export const getClient = async (clientId) => {
   try {
     const res = await axios.get(
-      `${apiUrl}/api/clients/getClientById?clientId=${clientId}`
+      `${apiUrl}/api/clients/getClientById?clientId=${clientId}`,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
     );
 
     return res.data;

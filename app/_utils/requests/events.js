@@ -16,7 +16,9 @@ const transformData = (response) => {
 //new event addition
 export const addNewEvent = async (event) => {
   try {
-    const res = await axios.post(`${apiUrl}/api/events/newEvent`, event);
+    const res = await axios.post(`${apiUrl}/api/events/newEvent`, event, {
+      headers: { "Cache-Control": "no-cache" },
+    });
 
     return res.data;
   } catch (err) {
@@ -27,7 +29,9 @@ export const addNewEvent = async (event) => {
 //display all events on calendar
 export const getEvents = async () => {
   try {
-    const res = await axios.get(`${apiUrl}/api/events/getEvents`);
+    const res = await axios.get(`${apiUrl}/api/events/getEvents`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
     transformData(res.data);
 
     return res.data;
@@ -40,7 +44,10 @@ export const getEvents = async () => {
 export const deleteEvent = async (eventId) => {
   try {
     const res = await axios.delete(
-      `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`
+      `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
     );
     return res.data;
   } catch (err) {

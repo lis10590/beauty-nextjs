@@ -7,7 +7,10 @@ export const addNewTreatment = async (treatment) => {
   try {
     const res = await axios.post(
       `${apiUrl}/api/treatments/newTreatment`,
-      treatment
+      treatment,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
     );
     return res.data;
   } catch (err) {
@@ -18,7 +21,9 @@ export const addNewTreatment = async (treatment) => {
 //display all treatments
 export const getTreatments = async () => {
   try {
-    const res = await axios.get(`${apiUrl}/api/treatments/getTreatments`);
+    const res = await axios.get(`${apiUrl}/api/treatments/getTreatments`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
 
     return res.data;
   } catch (err) {
@@ -30,7 +35,10 @@ export const getTreatments = async () => {
 export const deleteTreatment = async (treatmentId) => {
   try {
     const res = await axios.delete(
-      `${apiUrl}/api/treatments/deleteTreatment?treatmentId=${treatmentId}`
+      `${apiUrl}/api/treatments/deleteTreatment?treatmentId=${treatmentId}`,
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
     );
     return res.data;
   } catch (err) {
