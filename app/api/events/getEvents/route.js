@@ -6,5 +6,8 @@ export async function GET() {
   await connectDB();
   const res = await Event.find({});
 
-  return NextResponse.json(res);
+  return NextResponse.json(res, {
+    status: 200,
+    headers: { "Access-Control-Allow-Origin": "*" },
+  });
 }
