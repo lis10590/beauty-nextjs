@@ -11,6 +11,7 @@ export async function GET() {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Cache-Control": "no-cache",
+      "Access-Control-Allow-Headers": "*",
     },
   });
 }
