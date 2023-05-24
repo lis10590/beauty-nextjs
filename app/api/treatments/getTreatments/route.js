@@ -8,6 +8,9 @@ export async function GET() {
 
   return NextResponse.json(res, {
     status: 200,
-    headers: { "Access-Control-Allow-Origin": "*" },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-cache",
+    },
   });
 }
