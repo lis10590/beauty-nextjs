@@ -11,7 +11,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: "beauty-salon-app.vercel.app/_next/(.*)",
+        source: "/_next/(.*)",
         headers: [
           {
             key: "Cache-Control",
