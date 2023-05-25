@@ -1,0 +1,12 @@
+{
+  "headers": [
+    {
+      "source": "*",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "Pragma", "value": "no-cache" },
+        { "key": "Surrogate-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}
