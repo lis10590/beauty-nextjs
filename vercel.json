@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/api/(*)",
+      "source": "/api/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-store" },
         { "key": "Pragma", "value": "no-cache" },
