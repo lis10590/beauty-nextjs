@@ -24,7 +24,10 @@ export async function POST(req) {
       const savedTreatment = await newTreatment.save();
       return NextResponse.json(savedTreatment, {
         status: 200,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
       });
     } catch (err) {
       return NextResponse.json(

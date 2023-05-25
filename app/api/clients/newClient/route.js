@@ -19,7 +19,10 @@ export async function POST(req) {
     if (existingClient[0]) {
       return NextResponse.json("Client exists", {
         status: 400,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
       });
     }
     try {

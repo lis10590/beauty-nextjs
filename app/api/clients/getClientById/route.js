@@ -12,7 +12,10 @@ export async function GET(req) {
 
     return NextResponse.json(client, {
       status: 200,
-      headers: { "Access-Control-Allow-Origin": "*" },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store",
+      },
     });
   } catch (error) {
     console.error(error);

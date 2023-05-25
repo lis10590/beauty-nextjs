@@ -26,7 +26,13 @@ export async function POST(req) {
     }
     try {
       const savedProduct = await newProduct.save();
-      return NextResponse.json(savedProduct);
+      return NextResponse.json(savedProduct, {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
+      });
     } catch (err) {
       return NextResponse.json(
         { message: "Saving product failed", err },

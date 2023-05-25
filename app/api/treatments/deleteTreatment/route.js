@@ -12,7 +12,10 @@ export async function DELETE(req) {
     if (!treatment) {
       return NextResponse.json("treatment was not found", {
         status: 400,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
       });
     }
     console.log("Removed Treatment : ", treatment);

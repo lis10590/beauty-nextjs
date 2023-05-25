@@ -18,7 +18,13 @@ export async function DELETE(req) {
     console.log("Removed Event : ", event);
     return NextResponse.json(
       { id: eventId },
-      { status: 200, headers: { "Access-Control-Allow-Origin": "*" } }
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
+      }
     );
   } catch (error) {
     return NextResponse.json(

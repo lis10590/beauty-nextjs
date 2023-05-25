@@ -1,7 +1,6 @@
 import Client from "@/app/_utils/schemas/Client";
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
-import { headers } from "next/dist/client/components/headers";
 
 export async function DELETE(req) {
   await connectDB();
@@ -13,11 +12,23 @@ export async function DELETE(req) {
     if (!client) {
       return NextResponse.json("client was not found", {
         status: 400,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
       });
     }
     console.log("Removed Client : ", client);
-    return NextResponse.json({ id: clientId }, { status: 200 });
+    return NextResponse.json(
+      { id: clientId },
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(

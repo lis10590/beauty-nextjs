@@ -17,7 +17,13 @@ export async function DELETE(req) {
     console.log("Removed Product : ", product);
     return NextResponse.json(
       { id: productId },
-      { status: 200, headers: { "Access-Control-Allow-Origin": "*" } }
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
+      }
     );
   } catch (error) {
     return NextResponse.json("removing product failed", error, {

@@ -31,7 +31,10 @@ export async function POST(req) {
       );
       return NextResponse.json(result, {
         status: 200,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
+        },
       });
     }
     try {
