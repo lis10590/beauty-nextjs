@@ -10,7 +10,7 @@ export async function GET() {
     status: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      "Cache-Control": "private,no-cache, no-store, max-age=0, must-revalidate",
+      "Cache-Control": "private",
       "Access-Control-Allow-Headers": "*",
     },
   });
