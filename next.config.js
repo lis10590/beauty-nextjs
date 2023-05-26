@@ -11,7 +11,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: "/_next/(.*)",
+        source: "/api/(.*)",
         headers: [
           {
             key: "Cache-Control",
