@@ -17,7 +17,7 @@ const transformData = (response) => {
 export const addNewEvent = async (event) => {
   try {
     const res = await axios.post(`${apiUrl}/api/events/newEvent`, event, {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { "Cache-Control": "no-store" },
     });
 
     return res.data;
@@ -30,7 +30,7 @@ export const addNewEvent = async (event) => {
 export const getEvents = async () => {
   try {
     const res = await axios.get(`${apiUrl}/api/events/getEvents`, {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { "Cache-Control": "no-store" },
     });
     transformData(res.data);
 
@@ -46,7 +46,7 @@ export const deleteEvent = async (eventId) => {
     const res = await axios.delete(
       `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`,
       {
-        headers: { "Cache-Control": "no-cache" },
+        headers: { "Cache-Control": "no-store" },
       }
     );
     return res.data;

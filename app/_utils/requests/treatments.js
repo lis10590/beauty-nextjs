@@ -9,7 +9,7 @@ export const addNewTreatment = async (treatment) => {
       `${apiUrl}/api/treatments/newTreatment`,
       treatment,
       {
-        headers: { "Cache-Control": "no-cache" },
+        headers: { "Cache-Control": "no-store" },
       }
     );
     return res.data;
@@ -22,7 +22,7 @@ export const addNewTreatment = async (treatment) => {
 export const getTreatments = async () => {
   try {
     const res = await axios.get(`${apiUrl}/api/treatments/getTreatments`, {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { "Cache-Control": "no-store" },
     });
 
     return res.data;
@@ -37,7 +37,7 @@ export const deleteTreatment = async (treatmentId) => {
     const res = await axios.delete(
       `${apiUrl}/api/treatments/deleteTreatment?treatmentId=${treatmentId}`,
       {
-        headers: { "Cache-Control": "no-cache" },
+        headers: { "Cache-Control": "no-store" },
       }
     );
     return res.data;

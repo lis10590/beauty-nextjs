@@ -43,7 +43,7 @@ export const deleteClient = async (clientId) => {
     const res = await axios.delete(
       `${apiUrl}/api/clients/deleteClient?clientId=${clientId}`,
       {
-        headers: { "Cache-Control": "no-cache" },
+        headers: { "Cache-Control": "no-store" },
       }
     );
     return res.data;
@@ -55,7 +55,7 @@ export const deleteClient = async (clientId) => {
 export const updateClient = async (client) => {
   try {
     const res = await axios.put(`${apiUrl}/api/clients/updateClient`, client, {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { "Cache-Control": "no-store" },
     });
     return res.data;
   } catch (err) {
@@ -66,7 +66,7 @@ export const updateClient = async (client) => {
 export const getPurchasedProducts = async () => {
   try {
     const res = await axios.get(`${apiUrl}/api/clients/getPurchasedProducts`, {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { "Cache-Control": "no-store" },
     });
 
     return res.data;
@@ -80,7 +80,7 @@ export const getClient = async (clientId) => {
     const res = await axios.get(
       `${apiUrl}/api/clients/getClientById?clientId=${clientId}`,
       {
-        headers: { "Cache-Control": "no-cache" },
+        headers: { "Cache-Control": "no-store" },
       }
     );
 
