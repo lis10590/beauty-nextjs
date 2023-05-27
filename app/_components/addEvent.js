@@ -94,6 +94,11 @@ const AddEvent = (props) => {
           onChange={onChangeEventHandler}
           onBlur={titleBlurHandler}
         />
+        {!titleRegex.test(newEvent.title) && titleIsTouched && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Treatment Details are invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-3 ms-4"
           icon={faUser}
@@ -105,6 +110,11 @@ const AddEvent = (props) => {
           onChange={onChangeEventHandler}
           onBlur={fullNameBlurHandler}
         />
+        {!fullNameRegex.test(newEvent.fullName) && fullNameIsTouched && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Full Name is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mb-3 mt-3 ms-4"
           icon={faMobilePhone}
@@ -116,6 +126,12 @@ const AddEvent = (props) => {
           onChange={onChangeEventHandler}
           onBlur={phoneNumberBlurHandler}
         />
+        {!phoneNumberRegex.test(newEvent.phoneNumber) &&
+          phoneNumberIsTouched && (
+            <p className={`${styles.alert} text-danger text-center`}>
+              phone Number is invalid!
+            </p>
+          )}
         <div className="d-flex justify-content-around">
           <DatePicker
             placeholderText="Start Date"

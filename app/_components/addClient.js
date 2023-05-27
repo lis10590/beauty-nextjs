@@ -62,6 +62,11 @@ const AddClient = (props) => {
           onChange={fullNameChangeHandler}
           onBlur={fullNameBlurHandler}
         />
+        {fullNameInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Full Name is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mb-5 mt-5 ms-4"
           icon={faMobilePhone}
@@ -73,6 +78,11 @@ const AddClient = (props) => {
           onChange={phoneNumberChangeHandler}
           onBlur={phoneNumberBlurHandler}
         />
+        {phoneNumberInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            phone Number is invalid!
+          </p>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onClose}>

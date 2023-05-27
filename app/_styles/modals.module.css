@@ -28,3 +28,7 @@
   background-color: #e90064;
   border-color: #e90064;
 }
+
+.alert {
+  font-size: small;
+}

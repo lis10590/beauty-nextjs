@@ -106,6 +106,11 @@ const AddProduct = (props) => {
           onBlur={productNameBlurHandler}
           icon={faShoppingBag}
         />
+        {productNameInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Product Name is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-3 ms-4"
           name="manufacturer"
@@ -117,6 +122,11 @@ const AddProduct = (props) => {
           onBlur={manufacturerBlurHandler}
           icon={faTruck}
         />
+        {manufacturerInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Manufacturer is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-3 ms-4"
           name="productType"
@@ -128,6 +138,11 @@ const AddProduct = (props) => {
           onBlur={productTypeBlurHandler}
           icon={faT}
         />
+        {productTypeInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Product Type is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-3 ms-4"
           name="productGroup"
@@ -139,6 +154,11 @@ const AddProduct = (props) => {
           onBlur={productGroupBlurHandler}
           icon={faUserGroup}
         />
+        {productGroupInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Product Group is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mb-5 mt-3 ms-4"
           name="price"
@@ -150,6 +170,11 @@ const AddProduct = (props) => {
           onBlur={priceBlurHandler}
           icon={faShekelSign}
         />
+        {priceInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Price is invalid!
+          </p>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onClose}>

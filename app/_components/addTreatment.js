@@ -63,6 +63,11 @@ const AddTreatment = (props) => {
           onChange={treatmentNameChangeHandler}
           onBlur={treatmentNameBlurHandler}
         />
+        {treatmentNameInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Treatment Name is invalid!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mb-5 mt-5 ms-4"
           icon={faShekelSign}
@@ -74,6 +79,11 @@ const AddTreatment = (props) => {
           onChange={priceChangeHandler}
           onBlur={priceBlurHandler}
         />
+        {priceInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Price is invalid!
+          </p>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onClose}>
