@@ -29,15 +29,31 @@ export const addNewEvent = async (event) => {
 //display all events on calendar
 export const getEvents = async () => {
   try {
-    const res = await axios.get(`${apiUrl}/api/events/getEvents`, {
-      headers: { "Cache-Control": "no-store" },
-    });
-    transformData(res.data);
-
-    return res.data;
+    const res = await fetch(
+      `${apiUrl}/api/events/getEvents`,
+      { cache: "no-store" },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    transformData(data);
+    return data;
   } catch (err) {
     console.error(err);
   }
+  // try {
+  //   const res = await axios.get(`${apiUrl}/api/events/getEvents`, {
+  //     headers: { "Cache-Control": "no-store" },
+  //   });
+  //   transformData(res.data);
+
+  //   return res.data;
+  // } catch (err) {
+  //   console.error(err);
+  // }
 };
 
 //delete event
