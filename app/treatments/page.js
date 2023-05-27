@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Button, Table } from "react-bootstrap";
+import { Card, Button, Table, Pagination } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +25,8 @@ const Treatments = () => {
 
   const [chosenTreatmentId, setChosenTreatmentId] = useState("");
   const [treatments, setTreatments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [treatmentsPerPage] = useState(5);
 
   useEffect(() => {
     getAllTreatments();
@@ -44,6 +46,48 @@ const Treatments = () => {
   };
 
   // const treatments = useSelector(selectAllTreatments);
+
+  // Calculate the index of the last client on the current page
+  const indexOfLastTreatment = currentPage * treatmentsPerPage;
+
+  // Calculate the index of the first client on the current page
+  const indexOfFirstTreatment = indexOfLastTreatment - treatmentsPerPage;
+
+  // Get the clients to display on the current page
+  const currentTreatments = treatments.slice(
+    indexOfFirstTreatment,
+    indexOfLastTreatment
+  );
+
+  // Calculate the total number of pages based on the total number of clients
+  const totalPages = Math.ceil(treatments.length / treatmentsPerPage);
+
+  // Calculate the page numbers to display in the pagination
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
+  // Determine whether the previous button should be disabled
+  const isPrevDisabled = currentPage === 1;
+
+  // Determine whether the next button should be disabled
+  const isNextDisabled = currentPage === totalPages;
+
+  // Handles clicking on a page number
+  const handleClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Handles clicking on the "Previous" button
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => prev - 1);
+  };
+
+  // Handles clicking on the "Next" button
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
 
   const deleteTreatmentHandler = () => {
     // dispatch(deleteOneTreatment(chosenTreatmentId));
@@ -80,7 +124,7 @@ const Treatments = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex flex-column align-items-center">
       <Card className="mt-5">
         <Card.Header
           className={`${styles.cardHeader} d-flex flex-column align-items-center`}
@@ -103,7 +147,7 @@ const Treatments = () => {
               </tr>
             </thead>
             <tbody>
-              {treatments.map((treatment) => {
+              {currentTreatments.map((treatment) => {
                 return (
                   <tr key={treatment._id}>
                     <td>{treatment.treatmentName}</td>
@@ -133,6 +177,32 @@ const Treatments = () => {
         onNoClick={closeDeleteModalHandler}
         onYesClick={deleteTreatmentHandler}
       />
+      <div className="d-flex justify-content-center my-3">
+        <Pagination>
+          <Pagination.Prev onClick={handlePrevPage} disabled={isPrevDisabled} />
+          {pageNumbers.map((number) => {
+            if (number === currentPage) {
+              return (
+                <Pagination.Item key={number} active>
+                  {number}
+                </Pagination.Item>
+              );
+            } else if (number >= currentPage - 1 && number <= currentPage + 1) {
+              return (
+                <Pagination.Item
+                  key={number}
+                  onClick={() => handleClick(number)}
+                >
+                  {number}
+                </Pagination.Item>
+              );
+            } else {
+              return null;
+            }
+          })}
+          <Pagination.Next onClick={handleNextPage} disabled={isNextDisabled} />
+        </Pagination>
+      </div>
     </div>
   );
 };

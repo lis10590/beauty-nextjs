@@ -25,7 +25,7 @@ const Products = () => {
   const [chosenProductId, setChosenProductId] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(10);
+  const [productsPerPage] = useState(5);
 
   useEffect(() => {
     getAllProducts();
@@ -131,7 +131,7 @@ const Products = () => {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <Card className="mt-5">
+      <Card className={`${styles.productsCard} mt-5`}>
         <Card.Header
           className={`${styles.cardHeader} d-flex flex-column align-items-center`}
         >

@@ -26,8 +26,8 @@ const Register = () => {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
-      router.push("/Home");
+    if (isSuccess || Object.keys(user).length !== 0) {
+      router.push("/home");
     }
 
     dispatch(reset());

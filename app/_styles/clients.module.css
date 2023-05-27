@@ -1,5 +1,4 @@
 .clientCard {
-  width: 30rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border: 1px solid #000;
   height: fit-content;
@@ -25,7 +24,14 @@
   cursor: pointer;
 }
 
-/* .clientsBody {
-    background-image: linear-gradient(to right, #ffe3e1, #ffd1d1, #ff9494);
-    height: inherit;
-  } */
+@media (max-width: 480px) {
+  .clientCard {
+    width: 20rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .clientCard {
+    width: 30rem;
+  }
+}

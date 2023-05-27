@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 
 .regCard {
-  width: 40rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border: 1px solid #000;
   height: fit-content;
@@ -21,4 +20,16 @@
 .saveButton:hover {
   background-color: #e90064;
   border-color: #e90064;
+}
+
+@media (max-width: 480px) {
+  .regCard {
+    width: 20rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .regCard {
+    width: 40rem;
+  }
 }

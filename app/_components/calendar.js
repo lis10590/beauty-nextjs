@@ -37,11 +37,11 @@ const BigCalendar = (props) => {
         events={props.events}
         startAccessor="start"
         endAccessor="end"
-        style={{
-          height: 600,
-          backgroundColor: "white",
-          marginBottom: "2rem",
-        }}
+        // style={{
+        //   height: 400,
+        //   backgroundColor: "white",
+        //   marginBottom: "2rem",
+        // }}
         selectable
         onSelectEvent={(event) => {
           saveChosenEvent(event);

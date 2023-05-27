@@ -19,3 +19,15 @@
   background-color: #9ba4b5;
   border-color: white;
 }
+
+@media (max-width: 480px) {
+  .detailsCard {
+    width: 20rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .detailsCard {
+    width: 30rem;
+  }
+}
