@@ -16,14 +16,28 @@ const transformData = (response) => {
 //new event addition
 export const addNewEvent = async (event) => {
   try {
-    const res = await axios.post(`${apiUrl}/api/events/newEvent`, event, {
-      headers: { "Cache-Control": "no-store" },
+    const res = await fetch(`${apiUrl}/api/events/newEvent`, {
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(event),
     });
-
-    return res.data;
+    const data = await res.json();
+    return data;
   } catch (err) {
     console.error(err);
   }
+  // try {
+  //   const res = await axios.post(`${apiUrl}/api/events/newEvent`, event, {
+  //     headers: { "Cache-Control": "no-store" },
+  //   });
+
+  //   return res.data;
+  // } catch (err) {
+  //   console.error(err);
+  // }
 };
 
 //display all events on calendar
@@ -59,14 +73,30 @@ export const getEvents = async () => {
 //delete event
 export const deleteEvent = async (eventId) => {
   try {
-    const res = await axios.delete(
+    const res = await fetch(
       `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`,
       {
-        headers: { "Cache-Control": "no-store" },
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "DELETE",
       }
     );
-    return res.data;
+    const data = await res.json();
+    return data;
   } catch (err) {
     console.error(err);
   }
+  // try {
+  //   const res = await axios.delete(
+  //     `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`,
+  //     {
+  //       headers: { "Cache-Control": "no-store" },
+  //     }
+  //   );
+  //   return res.data;
+  // } catch (err) {
+  //   console.error(err);
+  // }
 };
