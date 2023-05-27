@@ -1,7 +1,8 @@
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 import Treatment from "@/app/_utils/schemas/Treatment";
-
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export async function POST(req) {
   await connectDB();
   const treatment = await req.json();

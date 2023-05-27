@@ -16,87 +16,41 @@ const transformData = (response) => {
 //new event addition
 export const addNewEvent = async (event) => {
   try {
-    const res = await fetch(`${apiUrl}/api/events/newEvent`, {
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(event),
+    const res = await axios.post(`${apiUrl}/api/events/newEvent`, event, {
+      headers: { "Cache-Control": "no-store" },
     });
-    const data = await res.json();
-    return data;
+
+    return res.data;
   } catch (err) {
     console.error(err);
   }
-  // try {
-  //   const res = await axios.post(`${apiUrl}/api/events/newEvent`, event, {
-  //     headers: { "Cache-Control": "no-store" },
-  //   });
-
-  //   return res.data;
-  // } catch (err) {
-  //   console.error(err);
-  // }
 };
 
 //display all events on calendar
 export const getEvents = async () => {
   try {
-    const res = await fetch(
-      `${apiUrl}/api/events/getEvents`,
-      { cache: "no-store" },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    transformData(data);
-    return data;
+    const res = await axios.get(`${apiUrl}/api/events/getEvents`, {
+      headers: { "Cache-Control": "no-store" },
+    });
+    transformData(res.data);
+
+    return res.data;
   } catch (err) {
     console.error(err);
   }
-  // try {
-  //   const res = await axios.get(`${apiUrl}/api/events/getEvents`, {
-  //     headers: { "Cache-Control": "no-store" },
-  //   });
-  //   transformData(res.data);
-
-  //   return res.data;
-  // } catch (err) {
-  //   console.error(err);
-  // }
 };
 
 //delete event
 export const deleteEvent = async (eventId) => {
   try {
-    const res = await fetch(
+    const res = await axios.delete(
       `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`,
       {
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "DELETE",
+        headers: { "Cache-Control": "no-store" },
       }
     );
-    const data = await res.json();
-    return data;
+    return res.data;
   } catch (err) {
     console.error(err);
   }
-  // try {
-  //   const res = await axios.delete(
-  //     `${apiUrl}/api/events/deleteEvent?eventId=${eventId}`,
-  //     {
-  //       headers: { "Cache-Control": "no-store" },
-  //     }
-  //   );
-  //   return res.data;
-  // } catch (err) {
-  //   console.error(err);
-  // }
 };
