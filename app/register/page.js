@@ -112,6 +112,11 @@ const Register = () => {
           onChange={firstNameChangeHandler}
           onBlur={firstNameBlurHandler}
         />
+        {firstNameInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            First Name is required!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-4 ms-4"
           icon={faUser}
@@ -123,6 +128,11 @@ const Register = () => {
           onChange={lastNameChangeHandler}
           onBlur={lastNameBlurHandler}
         />
+        {lastNameInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Last Name is required!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-4 ms-4"
           icon={faEnvelope}
@@ -134,6 +144,11 @@ const Register = () => {
           onChange={emailChangeHandler}
           onBlur={emailBlurHandler}
         />
+        {emailInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Enter a valid email!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mt-4 ms-4"
           icon={faLock}
@@ -145,6 +160,11 @@ const Register = () => {
           onChange={passwordChangeHandler}
           onBlur={passwordBlurHandler}
         />
+        {passwordInputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Password must be minimum 6 characters!
+          </p>
+        )}
         <InputComponent
           inputTextClass="mb-3 mt-4 ms-4"
           icon={faLock}
@@ -156,6 +176,16 @@ const Register = () => {
           onChange={password2ChangeHandler}
           onBlur={password2BlurHandler}
         />
+        {password2InputHasError && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Password must be minimum 6 characters!
+          </p>
+        )}
+        {!matchingPassword && (
+          <p className={`${styles.alert} text-danger text-center`}>
+            Password does not match!
+          </p>
+        )}
         <div className="d-flex justify-content-center mb-3">
           <Button className={styles.saveButton} onClick={formSubmissionHandler}>
             Register

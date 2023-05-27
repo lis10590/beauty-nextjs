@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import NavbarComp from "./_components/navbar";
 import store from "./_utils/store";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function RootLayout({ children }) {
   return (

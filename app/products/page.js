@@ -16,6 +16,7 @@ import DeleteModal from "../_components/deleteModal";
 import AddProduct from "../_components/addProducts";
 import styles from "../_styles/products.module.css";
 import { getProducts, deleteProduct } from "../_utils/requests/products";
+import Skeleton from "react-loading-skeleton";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -23,9 +24,10 @@ const Products = () => {
   const deleteModal = useSelector((state) => state.modal.deleteModalOpen);
 
   const [chosenProductId, setChosenProductId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5);
+  const [productsPerPage] = useState(4);
 
   useEffect(() => {
     getAllProducts();
@@ -39,9 +41,11 @@ const Products = () => {
   const [products, setProducts] = useState([]);
 
   const getAllProducts = async () => {
+    setIsLoading(true);
     try {
       const data = await getProducts();
       setProducts(data);
+      setIsLoading(false);
     } catch (error) {
       // Handle the error if needed
     }
@@ -131,7 +135,7 @@ const Products = () => {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <Card className={`${styles.productsCard} mt-5`}>
+      <Card className={`${styles.productsCard} mt-3`}>
         <Card.Header
           className={`${styles.cardHeader} d-flex flex-column align-items-center`}
         >
@@ -144,35 +148,39 @@ const Products = () => {
           Products
         </Card.Header>
         <Card.Body>
-          <Table responsive="sm">
-            <thead>
-              <tr>
-                {tableHeadings.map((heading, index) => {
-                  return <th key={index}>{heading}</th>;
+          {!isLoading ? (
+            <Table responsive="sm">
+              <thead>
+                <tr>
+                  {tableHeadings.map((heading, index) => {
+                    return <th key={index}>{heading}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {currentProducts.map((product) => {
+                  return (
+                    <tr key={product._id}>
+                      <td>{product.productName}</td>
+                      <td>{product.manufacturer}</td>
+                      <td>{product.productType}</td>
+                      <td>{product.productGroup}</td>
+                      <td>{product.price}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          className={styles.deleteIcon}
+                          icon={faTrashCan}
+                          onClick={() => openDeleteModalHandler(product._id)}
+                        />
+                      </td>
+                    </tr>
+                  );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {currentProducts.map((product) => {
-                return (
-                  <tr key={product._id}>
-                    <td>{product.productName}</td>
-                    <td>{product.manufacturer}</td>
-                    <td>{product.productType}</td>
-                    <td>{product.productGroup}</td>
-                    <td>{product.price}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        className={styles.deleteIcon}
-                        icon={faTrashCan}
-                        onClick={() => openDeleteModalHandler(product._id)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+              </tbody>
+            </Table>
+          ) : (
+            <Skeleton count={10} />
+          )}
         </Card.Body>
       </Card>
       <AddProduct

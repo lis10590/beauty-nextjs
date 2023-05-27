@@ -21,6 +21,7 @@ import AddClient from "../_components/addClient";
 import DeleteModal from "../_components/deleteModal";
 import Link from "next/link";
 import { getClients, deleteClient } from "../_utils/requests/clients";
+import Skeleton from "react-loading-skeleton";
 
 const Clients = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Clients = () => {
 
   const [chosenClientId, setChosenClientId] = useState("");
   const [clients, setClients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // const clients = useSelector(selectAllClients);
 
@@ -41,9 +43,11 @@ const Clients = () => {
   }, []);
 
   const getAllClients = async () => {
+    setIsLoading(true);
     try {
       const data = await getClients();
       setClients(data);
+      setIsLoading(false);
     } catch (error) {
       // Handle the error if needed
     }
@@ -137,38 +141,42 @@ const Clients = () => {
           </Button>
           Clients
         </Card.Header>
-        <ListGroup>
-          {clients
-            ? currentClients.map((client) => {
-                return (
-                  <ListGroup.Item
-                    key={client._id}
-                    className="d-flex flex-column align-items-center"
-                  >
-                    <Container
-                      className="d-flex justify-content-center"
-                      as={Link}
-                      href={`/clients/${client._id}`}
+        {!isLoading ? (
+          <ListGroup>
+            {clients
+              ? currentClients.map((client) => {
+                  return (
+                    <ListGroup.Item
+                      key={client._id}
+                      className="d-flex flex-column align-items-center"
                     >
-                      {client.fullName}
-                    </Container>
+                      <Container
+                        className="d-flex justify-content-center"
+                        as={Link}
+                        href={`/clients/${client._id}`}
+                      >
+                        {client.fullName}
+                      </Container>
 
-                    <FontAwesomeIcon
-                      className={styles.deleteIcon}
-                      icon={faTrashCan}
-                      onClick={() => openDeleteModalHandler(client._id)}
-                    />
-                    <DeleteModal
-                      isOpen={deleteModal}
-                      onClose={closeDeleteModalHandler}
-                      onNoClick={closeDeleteModalHandler}
-                      onYesClick={() => deleteClientHandler(chosenClientId)}
-                    />
-                  </ListGroup.Item>
-                );
-              })
-            : null}
-        </ListGroup>
+                      <FontAwesomeIcon
+                        className={styles.deleteIcon}
+                        icon={faTrashCan}
+                        onClick={() => openDeleteModalHandler(client._id)}
+                      />
+                      <DeleteModal
+                        isOpen={deleteModal}
+                        onClose={closeDeleteModalHandler}
+                        onNoClick={closeDeleteModalHandler}
+                        onYesClick={() => deleteClientHandler(chosenClientId)}
+                      />
+                    </ListGroup.Item>
+                  );
+                })
+              : null}
+          </ListGroup>
+        ) : (
+          <Skeleton count={5} />
+        )}
       </Card>
       <AddClient
         isOpen={addModal}

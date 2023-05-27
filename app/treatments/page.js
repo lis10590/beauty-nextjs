@@ -16,6 +16,7 @@ import DeleteModal from "../_components/deleteModal";
 import AddTreatment from "../_components/addTreatment";
 import styles from "../_styles/treatments.module.css";
 import { getTreatments, deleteTreatment } from "../_utils/requests/treatments";
+import Skeleton from "react-loading-skeleton";
 
 const Treatments = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Treatments = () => {
 
   const [chosenTreatmentId, setChosenTreatmentId] = useState("");
   const [treatments, setTreatments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [treatmentsPerPage] = useState(5);
 
@@ -37,9 +39,11 @@ const Treatments = () => {
   }, [dispatch]);
 
   const getAllTreatments = async () => {
+    setIsLoading(true);
     try {
       const data = await getTreatments();
       setTreatments(data);
+      setIsLoading(false);
     } catch (error) {
       // Handle the error if needed
     }
@@ -138,32 +142,36 @@ const Treatments = () => {
           Treatments
         </Card.Header>
         <Card.Body>
-          <Table>
-            <thead>
-              <tr>
-                {tableHeadings.map((heading, index) => {
-                  return <th key={index}>{heading}</th>;
+          {!isLoading ? (
+            <Table>
+              <thead>
+                <tr>
+                  {tableHeadings.map((heading, index) => {
+                    return <th key={index}>{heading}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {currentTreatments.map((treatment) => {
+                  return (
+                    <tr key={treatment._id}>
+                      <td>{treatment.treatmentName}</td>
+                      <td>{treatment.price}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          className={styles.deleteIcon}
+                          icon={faTrashCan}
+                          onClick={() => openDeleteModalHandler(treatment._id)}
+                        />
+                      </td>
+                    </tr>
+                  );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {currentTreatments.map((treatment) => {
-                return (
-                  <tr key={treatment._id}>
-                    <td>{treatment.treatmentName}</td>
-                    <td>{treatment.price}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        className={styles.deleteIcon}
-                        icon={faTrashCan}
-                        onClick={() => openDeleteModalHandler(treatment._id)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+              </tbody>
+            </Table>
+          ) : (
+            <Skeleton count={10} />
+          )}
         </Card.Body>
       </Card>
       <AddTreatment

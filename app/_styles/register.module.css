@@ -22,6 +22,10 @@
   border-color: #e90064;
 }
 
+.alert {
+  font-size: small;
+}
+
 @media (max-width: 480px) {
   .regCard {
     width: 20rem;

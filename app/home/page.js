@@ -9,12 +9,14 @@ import { useState, useEffect } from "react";
 import DeleteModal from "../_components/deleteModal";
 import { deleteOneEvent } from "../_utils/store/events";
 import { getEvents, deleteEvent } from "../_utils/requests/events";
+import Skeleton from "react-loading-skeleton";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [chosenEvent, setChosenEvent] = useState("");
 
   const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // dispatch(getAllEvents());
@@ -23,9 +25,11 @@ const Home = () => {
   }, []);
 
   const getAllEvents = async () => {
+    setIsLoading(true);
     try {
       const data = await getEvents();
       setEvents(data);
+      setIsLoading(false);
     } catch (error) {
       // Handle the error if needed
     }
@@ -73,7 +77,11 @@ const Home = () => {
           Add Appointment
         </Button>
       </div>
-      <BigCalendar deleteModal={openDeleteModalHandler} events={events} />
+      {!isLoading ? (
+        <BigCalendar deleteModal={openDeleteModalHandler} events={events} />
+      ) : (
+        <Skeleton count={10} />
+      )}
       <AddEvent
         isOpen={addModal}
         onClose={closeAddModalHandler}
