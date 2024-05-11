@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body,
 body > div:first-child,
@@ -6,11 +10,11 @@ div#__next > div {
   height: 100%;
 }
 
-body {
+/* body {
   background-image: linear-gradient(to right, #ffe3e1, #ffd1d1, #ff9494);
   background-color: #ffffff;
 
   background-size: 100% 50%;
   background-position: bottom;
   background-repeat: no-repeat;
-}
+} */
