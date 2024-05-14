@@ -3,12 +3,17 @@
 // import { modalActions } from "../_utils/store/modal";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getClients, deleteClient } from "../_utils/requests/clients";
+import {
+  getClients,
+  deleteClient,
+  addNewClient,
+} from "../_utils/requests/clients";
 import Card from "../_components/card";
 import Image from "next/image";
 import trashIcon from "@/public/trashIcon.svg";
 import Pagination from "../_components/pagination";
 import AddClient from "../_components/addClient";
+import DeleteModal from "../_components/deleteModal";
 
 const Clients = () => {
   const [chosenClientId, setChosenClientId] = useState("");
@@ -16,6 +21,7 @@ const Clients = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -23,6 +29,15 @@ const Clients = () => {
 
   const handleCloseModal = () => {
     setIsOpen(false);
+  };
+
+  const handleDeleteModalOpen = (id) => {
+    setDeleteModalOpen(true);
+    saveChosenClientId(id);
+  };
+
+  const handleDeleteModalClose = () => {
+    setDeleteModalOpen(false);
   };
 
   // const clients = useSelector(selectAllClients);
@@ -48,20 +63,25 @@ const Clients = () => {
 
   const handleClientAddition = (newClient) => {
     setClients([...clients, newClient]);
+    addNewClient(newClient);
+    setIsOpen(false);
   };
 
   const saveChosenClientId = (id) => {
     setChosenClientId(id);
   };
 
-  // const deleteClientHandler = (clientId) => {
-  //   // dispatch(deleteOneClient(clientId));
-  //   const updatedClients = clients.filter((client) => client._id !== clientId);
-  //   setClients(updatedClients);
-  //   deleteClient(clientId);
-  //   dispatch(modalActions.deleteModalClose());
-  // };
+  const deleteClientHandler = (clientId) => {
+    const updatedClients = clients.filter((client) => client._id !== clientId);
+    setClients(updatedClients);
+    deleteClient(clientId);
+    setDeleteModalOpen(false);
+  };
 
+  // Handles clicking on a page number
+  const handleClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   // Calculate the index of the last client on the current page
   const indexOfLastClient = currentPage * clientsPerPage;
 
@@ -74,43 +94,82 @@ const Clients = () => {
   // Calculate the total number of pages based on the total number of clients
   const totalPages = Math.ceil(clients.length / clientsPerPage);
 
-  // Calculate the page numbers to display in the pagination
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+  // // Calculate the page numbers to display in the pagination
+  // const pageNumbers = [];
+  // for (let i = 1; i <= totalPages; i++) {
+  //   pageNumbers.push(i);
+  // }
 
-  // Handles clicking on a page number
-  const handleClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // // Handles clicking on a page number
+  // const handleClick = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+
+  // const currentClientHandler = (currentPage, clientsPerPage) => {
+  //   console.log(currentPage, clientsPerPage);
+  //   if (!currentPage && !clientsPerPage) {
+  //     currentPage = 1;
+  //     clientsPerPage = 5;
+  //   }
+  //   // Calculate the index of the last client on the current page
+  //   const indexOfLastClient = currentPage * clientsPerPage;
+
+  //   // Calculate the index of the first client on the current page
+  //   const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+
+  //   // Get the clients to display on the current page
+  //   const currentClients = clients.slice(indexOfFirstClient, indexOfLastClient);
+  //   console.log(currentClients);
+  //   return currentClients;
+  // };
+
+  // const currentClients = currentClientHandler();
 
   return (
-    <div className="flex flex-col items-center justify-center mt-10">
-      <Card heading="Clients" onClick={handleOpenModal}>
-        {currentClients.map((client) => {
-          return (
-            <div key={client._id} className="flex justify-between">
-              <Link className="m-auto" href={`/clients/${client._id}`}>
-                {client.fullName}
-              </Link>
-              <Image
-                className="mr-4"
-                src={trashIcon}
-                height={30}
-                alt="trash icon"
-              />
-            </div>
-          );
-        })}
-      </Card>
-      <Pagination
-        currentPage={currentPage}
-        onPageChange={handleClick}
-        totalPages={totalPages}
-      />
-      <AddClient isOpen={isOpen} />
-    </div>
+    <>
+      <div>
+        <div className="flex flex-col items-center justify-center mt-10">
+          <Card heading="Clients" onClickCard={handleOpenModal}>
+            {currentClients.map((client) => {
+              return (
+                <div key={client._id} className="flex justify-between">
+                  <Link className="m-auto" href={`/clients/${client._id}`}>
+                    {client.fullName}
+                  </Link>
+                  <Image
+                    className="mr-4"
+                    src={trashIcon}
+                    height={30}
+                    alt="trash icon"
+                    onClick={() => handleDeleteModalOpen(client._id)}
+                  />
+                </div>
+              );
+            })}
+          </Card>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handleClick}
+          />
+        </div>
+      </div>
+
+      {isOpen && (
+        <AddClient
+          addClient={handleClientAddition}
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+        />
+      )}
+      {deleteModalOpen && (
+        <DeleteModal
+          isOpen={deleteModalOpen}
+          onClose={handleDeleteModalClose}
+          onYesClick={() => deleteClientHandler(chosenClientId)}
+        />
+      )}
+    </>
   );
 
   // return (

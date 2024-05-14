@@ -1,35 +1,36 @@
 "use client";
 import Modal from "./modal";
+import Form from "./form";
 
-const AddClient = ({ isOpen, onClose }) => {
+const AddClient = ({ isOpen, onClose, addClient }) => {
+  let fullNameRegex = new RegExp("[A-Za-z]+\\s[A-Za-z]{2,}");
+  let phoneNumberRegex = new RegExp("^[0][5][0-9]{8}");
+
+  const clientFields = [
+    {
+      name: "fullName",
+      type: "text",
+      placeholder: "Full Name",
+      defaultValue: "",
+      validation: (name) => fullNameRegex.test(name),
+    },
+    {
+      name: "phoneNumber",
+      type: "text",
+      placeholder: "Phone Number",
+      validation: (phoneNumber) => phoneNumberRegex.test(phoneNumber),
+    },
+  ];
+  const addNewClientHandler = (formData) => {
+    addClient(formData);
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose} heading="Add Client">
-      <form>
-        <div>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            className="mt-1 px-3 py-2 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300"
-            placeholder="Full Name"
-            required
-            // onChange={onEmailChange}
-            // value={enteredEmail}
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            className="mt-1 px-3 py-2 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300"
-            placeholder="Phone Number"
-            required
-            // onChange={onEmailChange}
-            // value={enteredEmail}
-          />
-        </div>
-      </form>
+      <Form
+        fields={clientFields}
+        onClose={onClose}
+        onSubmit={addNewClientHandler}
+      />
     </Modal>
   );
 };
