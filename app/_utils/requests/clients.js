@@ -2,8 +2,6 @@ import axios from "axios";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-console.log(apiUrl);
-
 //addition of a new client from clients page :
 export const addNewClient = async (client) => {
   try {
@@ -28,15 +26,18 @@ export const addNewClientFromCalendar = async (client) => {
 };
 
 //display all clients
-export const getClients = async () => {
+export const getClients = async (page) => {
   try {
-    const res = await axios.get(`${apiUrl}/api/clients/getClients`);
+    const res = await axios.get(
+      `${apiUrl}/api/clients/getClients?page=${page}`
+    );
 
     return res.data;
   } catch (err) {
     console.error(err);
   }
 };
+
 //delete a client
 export const deleteClient = async (clientId) => {
   try {

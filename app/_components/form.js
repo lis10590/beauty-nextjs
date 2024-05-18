@@ -9,6 +9,8 @@ const Form = ({ fields, onSubmit, onClose }) => {
     )
   );
 
+  console.log(formData);
+
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };

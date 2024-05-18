@@ -34,9 +34,9 @@ const NavbarComp = () => {
         <div className="flex">
           <div>
             <ul className="hidden md:flex space-x-4">
-              {links.map((link) => {
+              {links.map((link, index) => {
                 return (
-                  <li>
+                  <li key={index}>
                     <Link className="hover:text-gray-400" href={link.href}>
                       {link.label}
                     </Link>
@@ -83,9 +83,9 @@ const NavbarComp = () => {
             <path
               d="M4 6H20M4 12H20M4 18H20"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
           </svg>
         </button>
@@ -100,9 +100,9 @@ const NavbarComp = () => {
         {data?.user ? (
           <div>
             <ul className="space-y-2 pl-4">
-              {links.map((link) => {
+              {links.map((link, index) => {
                 return (
-                  <li>
+                  <li key={index}>
                     <Link className="hover:text-gray-400" href={link.href}>
                       {link.label}
                     </Link>

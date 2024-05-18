@@ -18,6 +18,7 @@ const AddClient = ({ isOpen, onClose, addClient }) => {
       name: "phoneNumber",
       type: "text",
       placeholder: "Phone Number",
+      defaultValue: "",
       validation: (phoneNumber) => phoneNumberRegex.test(phoneNumber),
     },
   ];
