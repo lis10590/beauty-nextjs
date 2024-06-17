@@ -1,31 +1,37 @@
 import Link from "next/link";
-import { getClients } from "../_utils/requests/clients";
 import Card from "../_components/card";
 import Pagination from "../_components/pagination";
 import DeleteButton from "../_components/deleteButton";
+import { getCustomers } from "../actions";
 
 const Clients = async (context) => {
   const page = context.searchParams.page ? context.searchParams.page : "1";
+  console.log(page);
 
-  const { clients, totalPages } = await getClients(page);
+  const { clients, totalPages } = await getCustomers(page);
+  console.log(clients);
 
   return (
     <>
       <div>
         <div className="flex flex-col items-center justify-center mt-10">
-          <Card heading="Clients">
+          <Card heading="Clients" modal="client">
             {clients.map((client) => {
               return (
                 <div key={client._id} className="flex justify-between">
                   <Link className="m-auto" href={`/clients/${client._id}`}>
                     {client.fullName}
                   </Link>
-                  <DeleteButton clientId={client._id} />
+                  <DeleteButton id={client._id.toString()} modal="client" />
                 </div>
               );
             })}
           </Card>
-          <Pagination totalPages={totalPages} currentPage={page} />
+          <Pagination
+            type="clients"
+            totalPages={totalPages}
+            currentPage={page}
+          />
         </div>
       </div>
     </>

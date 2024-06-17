@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-const Pagination = ({ totalPages, currentPage }) => {
+const Pagination = ({ totalPages, currentPage, type }) => {
   const router = useRouter();
 
   const buttonClasses =
@@ -43,7 +43,7 @@ const Pagination = ({ totalPages, currentPage }) => {
               isPrevDisabled ? "bg-gray-300 cursor-not-allowed" : ""
             }`}
             onClick={() =>
-              router.push(`/clients?page=${Number(currentPage) - 1}`)
+              router.push(`/${type}?page=${Number(currentPage) - 1}`)
             }
             disabled={isPrevDisabled}
           >
@@ -61,7 +61,7 @@ const Pagination = ({ totalPages, currentPage }) => {
           >
             <button
               className={buttonClasses}
-              onClick={() => router.push(`/clients?page=${Number(pageNumber)}`)}
+              onClick={() => router.push(`/${type}?page=${Number(pageNumber)}`)}
             >
               {pageNumber}
             </button>
@@ -73,7 +73,7 @@ const Pagination = ({ totalPages, currentPage }) => {
               isNextDisabled ? "bg-gray-300 cursor-not-allowed" : ""
             }`}
             onClick={() =>
-              router.push(`/clients?page=${Number(currentPage) + 1}`)
+              router.push(`/${type}?page=${Number(currentPage) + 1}`)
             }
             disabled={isNextDisabled}
           >

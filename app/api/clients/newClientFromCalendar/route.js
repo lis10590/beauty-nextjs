@@ -1,4 +1,4 @@
-import Client from "@/app/_utils/schemas/Client";
+import Customer from "@/app/_utils/schemas/Customer";
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
@@ -8,14 +8,14 @@ export async function POST(req) {
 
   const client = await req.json();
 
-  const newClient = await new Client({
+  const newClient = await new Customer({
     fullName: client.fullName,
     phoneNumber: client.phoneNumber,
     treatmentHistory: [{ treatmentName: client.title, date: new Date() }],
   });
 
   try {
-    const existingClient = await Client.find({
+    const existingClient = await Customer.find({
       phoneNumber: client.phoneNumber,
     });
     if (existingClient[0]) {

@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import connectDB from "../db";
 
 const userSchema = new Schema({
   firstName: { type: String, maxlength: 20 },
@@ -7,6 +8,9 @@ const userSchema = new Schema({
   email: { type: String },
 });
 
-const User = models.User || model("User", userSchema);
+async function getUserModel() {
+  await connectDB();
+  return models.User || model("User", userSchema);
+}
 
-export default User;
+export default getUserModel;

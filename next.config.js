@@ -1,13 +1,13 @@
 /** @type {import("next").NextConfig} */
 module.exports = {
-  experimental: {
-    esmExternals: "loose",
-    serverComponentsExternalPackages: ["mongoose"],
-  },
-  webpack(config) {
-    config.experiments = { ...config.experiments, topLevelAwait: true };
-    return config;
-  },
+  // experimental: {
+  //   esmExternals: "loose",
+  //   serverComponentsExternalPackages: ["mongoose"],
+  // },
+  // webpack(config) {
+  //   config.experiments = { ...config.experiments, topLevelAwait: true };
+  //   return config;
+  // },
   async headers() {
     return [
       {

@@ -1,11 +1,13 @@
 import User from "@/app/_utils/schemas/User";
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 export async function POST(req) {
   await connectDB();
   const res = await req.json();
+  console.log(res);
 
   const { firstName, lastName, email, password } = res;
   if (!firstName || !lastName || !email || !password) {

@@ -1,4 +1,4 @@
-import Client from "@/app/_utils/schemas/Client";
+import Customer from "@/app/_utils/schemas/Customer";
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
@@ -9,11 +9,11 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
   const currentPage = searchParams.get("page");
-  console.log(currentPage);
+
   const pageSize = 5;
   const skip = (currentPage - 1) * pageSize;
-  const totalClients = await Client.countDocuments({});
-  const clients = await Client.find({}).skip(skip).limit(pageSize);
+  const totalClients = await Customer.countDocuments({});
+  const clients = await Customer.find({}).skip(skip).limit(pageSize);
 
   return NextResponse.json(
     { clients: clients, totalPages: Math.ceil(totalClients / pageSize) },

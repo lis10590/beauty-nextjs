@@ -1,22 +1,22 @@
 import { Modal, Dropdown, Button } from "react-bootstrap";
 import styles from "../_styles/modals.module.css";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAllProducts, getAllProducts } from "../_utils/store/products";
-import {
-  purchasedProductsUpdate,
-  getClientById,
-} from "../_utils/store/clients";
+// import { useDispatch, useSelector } from "react-redux";
+// import { selectAllProducts, getAllProducts } from "../_utils/store/products";
+// import {
+//   purchasedProductsUpdate,
+//   getClientById,
+// } from "../_utils/store/clients";
 
 import { updateClient, getClient } from "../_utils/requests/clients";
 import { getProducts } from "../_utils/requests/products";
 
 const AddPurchasedProducts = (props) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // dispatch(getAllProducts());
-    getAllProducts();
-  }, []);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   // dispatch(getAllProducts());
+  //   getAllProducts();
+  // }, []);
 
   const [drop, setDrop] = useState("Products");
   const [products, setProducts] = useState([]);

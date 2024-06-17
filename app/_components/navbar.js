@@ -1,14 +1,13 @@
 "use client";
-// import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-// import styles from "../_styles/navbar.module.css";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { signOut, auth } from "@/auth";
 import { useState } from "react";
 
 const NavbarComp = () => {
   const router = useRouter();
-  const { data } = useSession();
+  const session = auth();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,7 +29,7 @@ const NavbarComp = () => {
   ];
   return (
     <nav className="flex items-center bg-gray-800 text-white p-4">
-      {data?.user ? (
+      {session?.user ? (
         <div className="flex">
           <div>
             <ul className="hidden md:flex space-x-4">
@@ -97,7 +96,7 @@ const NavbarComp = () => {
           isOpen ? "-translate-x-0" : "-translate-x-full"
         }`}
       >
-        {data?.user ? (
+        {session?.user ? (
           <div>
             <ul className="space-y-2 pl-4">
               {links.map((link, index) => {

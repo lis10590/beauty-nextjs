@@ -1,6 +1,25 @@
+// db.js
+
+// import mongoose from "mongoose";
+
+// const connection = {};
+
+// const MONGODB_URI = process.env.MONGODB_URI;
+
+// export const connectDB = async () => {
+//   try {
+//     if (connection.isConnected) return;
+//     const db = await mongoose.connect(MONGODB_URI);
+//     connection.isConnected = db.connections[0].readyState;
+//   } catch (error) {
+//     console.log(error);
+//     throw new Error(error);
+//   }
+// };
+
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error(
@@ -33,17 +52,3 @@ async function connectDB() {
 }
 
 export default connectDB;
-
-// const connectDB = async () => {
-//   try {
-//     await mongoose.connect(process.env.MONGODB_URI, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log("Connected to MongoDB");
-//   } catch (error) {
-//     console.error("Failed to connect to MongoDB", error);
-//   }
-// };
-
-// export default connectDB;

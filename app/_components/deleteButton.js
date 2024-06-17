@@ -4,31 +4,60 @@ import trashIcon from "@/public/trashIcon.svg";
 import { useState } from "react";
 import DeleteModal from "./deleteModal";
 import { deleteClient } from "../_utils/requests/clients";
+import { deleteProduct } from "../_utils/requests/products";
 import { useRouter } from "next/navigation";
 
-const DeleteButton = ({ clientId }) => {
+const DeleteButton = ({ id, modal }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [chosenClientId, setChosenClientId] = useState("");
+  const [chosenId, setChosenId] = useState("");
   const router = useRouter();
 
   const handleDeleteModalOpen = (id) => {
     setDeleteModalOpen(true);
-    saveChosenClientId(id);
+    saveChosenId(id);
   };
 
   const handleDeleteModalClose = () => {
     setDeleteModalOpen(false);
   };
 
-  const saveChosenClientId = (id) => {
-    setChosenClientId(id);
+  const saveChosenId = (id) => {
+    setChosenId(id);
   };
 
-  const deleteClientHandler = (clientId) => {
-    deleteClient(clientId);
+  const deleteClientHandler = (id) => {
+    deleteClient(id);
     setDeleteModalOpen(false);
     router.refresh();
   };
+
+  const deleteProductHandler = (id) => {
+    deleteProduct(id);
+    setDeleteModalOpen(false);
+    router.refresh();
+  };
+
+  const deleteComponentMap = {
+    client: {
+      deleteFunction: deleteClientHandler,
+    },
+    product: {
+      deleteFunction: deleteProductHandler,
+    },
+  };
+
+  // Function to get the add component and its function
+  const getDeleteComponentData = () => {
+    // Validate the modal prop for safety
+    if (!modal || !deleteComponentMap[modal]) {
+      console.error(`Invalid modal prop: "${modal}"`);
+      return null;
+    }
+
+    return deleteComponentMap[modal];
+  };
+
+  const { deleteFunction } = getDeleteComponentData();
 
   return (
     <>
@@ -37,14 +66,14 @@ const DeleteButton = ({ clientId }) => {
         src={trashIcon}
         height={30}
         alt="trash icon"
-        onClick={() => handleDeleteModalOpen(clientId)}
+        onClick={() => handleDeleteModalOpen(id)}
       />
 
       {deleteModalOpen && (
         <DeleteModal
           isOpen={deleteModalOpen}
           onClose={handleDeleteModalClose}
-          onYesClick={() => deleteClientHandler(chosenClientId)}
+          onYesClick={() => deleteFunction(chosenId)}
         />
       )}
     </>

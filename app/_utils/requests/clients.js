@@ -29,7 +29,8 @@ export const addNewClientFromCalendar = async (client) => {
 export const getClients = async (page) => {
   try {
     const res = await axios.get(
-      `${apiUrl}/api/clients/getClients?page=${page}`
+      `${apiUrl}/api/clients/getClients?page=${page}`,
+      { headers: { "Cache-Control": "no-store" } }
     );
 
     return res.data;

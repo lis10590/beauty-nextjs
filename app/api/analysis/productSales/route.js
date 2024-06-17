@@ -1,6 +1,6 @@
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
-import Client from "@/app/_utils/schemas/Client";
+import Client from "@/app/_utils/schemas/Customer";
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 export async function GET() {

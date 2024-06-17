@@ -14,11 +14,14 @@ export const addNewProduct = async (product) => {
 };
 
 //display all products
-export const getProducts = async () => {
+export const getProducts = async (page) => {
   try {
-    const res = await axios.get(`${apiUrl}/api/products/getProducts`, {
-      headers: { "Cache-Control": "no-store" },
-    });
+    const res = await axios.get(
+      `${apiUrl}/api/products/getProducts?page=${page}`,
+      {
+        headers: { "Cache-Control": "no-store" },
+      }
+    );
 
     return res.data;
   } catch (err) {

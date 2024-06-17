@@ -1,4 +1,4 @@
-import Client from "@/app/_utils/schemas/Client";
+import Customer from "@/app/_utils/schemas/Customer";
 import connectDB from "@/app/_utils/db";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
@@ -9,7 +9,7 @@ export async function DELETE(req) {
   const clientId = searchParams.get("clientId");
 
   try {
-    const client = await Client.findByIdAndRemove(clientId);
+    const client = await Customer.findByIdAndRemove(clientId);
     if (!client) {
       return NextResponse.json("client was not found", {
         status: 400,

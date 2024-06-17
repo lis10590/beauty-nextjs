@@ -1,85 +1,49 @@
-"use client";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+// import { signIn } from "next-auth/react";
 
-const Login = () => {
-  const router = useRouter();
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
+import Form from "../_components/form";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-  const onEmailChange = (event) => {
-    setEnteredEmail(event.target.value);
-  };
+const Login = async () => {
+  const session = await auth();
+  if (session?.user) redirect("/home");
+  let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+  const loginFields = [
+    {
+      name: "email",
+      type: "email",
+      placeholder: "Enter your Email",
+      defaultValue: "",
+      validation: (email) => emailRegex.test(email),
+    },
+    {
+      name: "password",
+      type: "password",
+      placeholder: "Enter your Password",
+      defaultValue: "",
+      validation: (password) => password.length > 5,
+    },
+  ];
 
-  const onPasswordChange = (event) => {
-    setEnteredPassword(event.target.value);
-  };
-  const onLoginHandler = async (event) => {
-    event.preventDefault();
-    try {
-      const data = await signIn("credentials", {
-        redirect: true,
-        email: enteredEmail,
-        password: enteredPassword,
-        callbackUrl: "/home",
-      });
-      console.log(data);
-      //   router.push("/home");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const onLoginHandler = async (formData) => {
+  //   try {
+  //     const data = await signIn("credentials", {
+  //       redirect: true,
+  //       email: formData.email,
+  //       password: formData.password,
+  //       callbackUrl: "/home",
+  //     });
+  //     console.log(data);
+  //     //   router.push("/home");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return (
     <div className="flex justify-center mt-6">
       <div className="bg-white shadow-md rounded-lg w-96 p-8">
         <h2 className="text-2xl font-medium mb-6">Login</h2>
-        <form className="space-y-4" onSubmit={onLoginHandler}>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="mt-1 px-3 py-2 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300"
-              placeholder="Enter your email"
-              required
-              onChange={onEmailChange}
-              value={enteredEmail}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="mt-1 px-3 py-2 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300"
-              placeholder="Enter your password"
-              required
-              onChange={onPasswordChange}
-              value={enteredPassword}
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="inline-flex items-center px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
-            >
-              Login
-            </button>
-          </div>
-        </form>
+        <Form fields={loginFields} /*onSubmit={onLoginHandler}*/ type="Login" />
       </div>
     </div>
   );

@@ -1,8 +1,7 @@
-"use client";
 import Modal from "./modal";
 import Form from "./form";
 
-const AddClient = ({ isOpen, onClose, addClient }) => {
+const AddClient = ({ isOpen, onClose, onAdd }) => {
   let fullNameRegex = new RegExp("[A-Za-z]+\\s[A-Za-z]{2,}");
   let phoneNumberRegex = new RegExp("^[0][5][0-9]{8}");
 
@@ -12,7 +11,7 @@ const AddClient = ({ isOpen, onClose, addClient }) => {
       type: "text",
       placeholder: "Full Name",
       defaultValue: "",
-      validation: (name) => fullNameRegex.test(name),
+      validation: (fullName) => fullNameRegex.test(fullName),
     },
     {
       name: "phoneNumber",
@@ -23,7 +22,7 @@ const AddClient = ({ isOpen, onClose, addClient }) => {
     },
   ];
   const addNewClientHandler = (formData) => {
-    addClient(formData);
+    onAdd(formData);
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} heading="Add Client">
@@ -31,6 +30,7 @@ const AddClient = ({ isOpen, onClose, addClient }) => {
         fields={clientFields}
         onClose={onClose}
         onSubmit={addNewClientHandler}
+        action="addCustomer"
       />
     </Modal>
   );

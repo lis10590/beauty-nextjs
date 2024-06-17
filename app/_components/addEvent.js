@@ -1,11 +1,10 @@
 "use client";
 
 import { Modal, Button } from "react-bootstrap";
-import { clientAdditionFromCalendar } from "../_utils/store/clients";
-import { eventAddition } from "../_utils/store/events";
+// import { clientAdditionFromCalendar } from "../_utils/store/clients";
+// import { eventAddition } from "../_utils/store/events";
 import { addNewEvent } from "../_utils/requests/events";
 import { addNewClientFromCalendar } from "../_utils/requests/clients";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import InputComponent from "./inputComponent";
 import DatePicker from "react-datepicker";
@@ -42,7 +41,6 @@ const AddEvent = (props) => {
   let fullNameRegex = new RegExp("[A-Za-z]+\\s[A-Za-z]{2,}");
   let phoneNumberRegex = new RegExp("^[0][5][0-9]{8}");
   let titleRegex = new RegExp("[A-Za-z]{2,}");
-  const dispatch = useDispatch();
   const onChangeEventHandler = (event) => {
     const { name, value } = event.target;
     setNewEvent((prevState) => ({
