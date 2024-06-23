@@ -6,6 +6,7 @@ import DeleteModal from "./deleteModal";
 import { deleteClient } from "../_utils/requests/clients";
 import { deleteProduct } from "../_utils/requests/products";
 import { useRouter } from "next/navigation";
+import { deleteCustomer } from "../actions";
 
 const DeleteButton = ({ id, modal }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -26,9 +27,8 @@ const DeleteButton = ({ id, modal }) => {
   };
 
   const deleteClientHandler = (id) => {
-    deleteClient(id);
+    deleteCustomer(id);
     setDeleteModalOpen(false);
-    router.refresh();
   };
 
   const deleteProductHandler = (id) => {

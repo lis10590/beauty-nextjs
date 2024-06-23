@@ -8,21 +8,26 @@ const Clients = async (context) => {
   const page = context.searchParams.page ? context.searchParams.page : "1";
   console.log(page);
 
-  const { clients, totalPages } = await getCustomers(page);
-  console.log(clients);
+  const { customers, totalPages } = await getCustomers(page);
 
   return (
     <>
       <div>
         <div className="flex flex-col items-center justify-center mt-10">
           <Card heading="Clients" modal="client">
-            {clients.map((client) => {
+            {customers.map((customer) => {
               return (
-                <div key={client._id} className="flex justify-between">
-                  <Link className="m-auto" href={`/clients/${client._id}`}>
-                    {client.fullName}
+                <div key={customer._id} className="flex justify-between">
+                  <Link
+                    className="m-auto"
+                    href={`/clients/${customer.customerId._id}`}
+                  >
+                    {customer.customerId.fullName}
                   </Link>
-                  <DeleteButton id={client._id.toString()} modal="client" />
+                  <DeleteButton
+                    id={customer.customerId._id.toString()}
+                    modal="client"
+                  />
                 </div>
               );
             })}

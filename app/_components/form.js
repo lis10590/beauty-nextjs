@@ -42,7 +42,7 @@ const Form = ({ fields, onSubmit, onClose, type, action }) => {
   const handleAction = (formaData) => {
     if (action == "addCustomer") {
       addCustomer(formaData);
-      onSubmit(formaData);
+      onClose();
     }
     if (action == "login") {
       loginUser(formaData);

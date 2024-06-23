@@ -4,10 +4,11 @@ import plusIcon from "@/public/plusIcon.svg";
 import { useState } from "react";
 import AddClient from "./addClient";
 import AddProduct from "./addProduct";
+import AddPurchase from "./addPurchase";
 // import { addNewClient } from "../_utils/requests/clients";
 import { addNewProduct } from "../_utils/requests/products";
 import { useRouter } from "next/navigation";
-const AddButton = ({ modal }) => {
+const AddButton = ({ modal, products, customerId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -51,6 +52,10 @@ const AddButton = ({ modal }) => {
     router.refresh();
   };
 
+  const handlePurchaseAddition = (newPurchase) => {
+    setIsOpen(false);
+  };
+
   const addComponentMap = {
     client: {
       component: AddClient,
@@ -59,6 +64,12 @@ const AddButton = ({ modal }) => {
     product: {
       component: AddProduct,
       addFunction: handleProductAddition,
+    },
+    purchase: {
+      component: AddPurchase,
+      addFunction: handlePurchaseAddition,
+      products: products,
+      customerId: customerId,
     },
   };
 
@@ -84,6 +95,8 @@ const AddButton = ({ modal }) => {
       </button>
       {isOpen && (
         <AddComponent
+          {...(modal === "purchase" && { products })}
+          {...(modal === "purchase" && { customerId })}
           onAdd={addFunction}
           isOpen={isOpen}
           onClose={handleCloseModal}

@@ -1,5 +1,42 @@
-const ClientCard = () => {
-  return <div>Client</div>;
+import AddButton from "@/app/_components/addButton";
+import Tabs from "@/app/_components/tabs";
+import CustomerCard from "@/app/_components/customerCard";
+import {
+  getCustomerById,
+  getProductsForPurchases,
+  getPurchases,
+} from "@/app/actions";
+
+const ClientCard = async ({ params }) => {
+  const { clientId } = params;
+  const [customer] = await getCustomerById(clientId);
+  const products = await getProductsForPurchases();
+  const purchases = await getPurchases(clientId);
+  console.log(purchases);
+
+  return (
+    <div className="flex justify-center mt-5">
+      <CustomerCard heading={customer.customerId.fullName}>
+        <div>
+          <p>Phone Number: {customer.customerId.phoneNumber}</p>
+        </div>
+        <Tabs
+          active="purchases"
+          purchases={purchases}
+          products={products}
+          customerId={clientId}
+          modal="purchase"
+        />
+        {/* <div className="flex flex-col items-center mt-3">
+          <AddButton
+            modal="purchase"
+            products={products}
+            customerId={clientId}
+          />
+        </div> */}
+      </CustomerCard>
+    </div>
+  );
 };
 
 export default ClientCard;
