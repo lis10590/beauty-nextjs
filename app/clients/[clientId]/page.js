@@ -5,6 +5,7 @@ import {
   getCustomerById,
   getProductsForPurchases,
   getPurchases,
+  getTreatmentsByClient,
 } from "@/app/actions";
 
 const ClientCard = async ({ params }) => {
@@ -12,7 +13,7 @@ const ClientCard = async ({ params }) => {
   const [customer] = await getCustomerById(clientId);
   const products = await getProductsForPurchases();
   const purchases = await getPurchases(clientId);
-  console.log(purchases);
+  const treatments = await getTreatmentsByClient(clientId);
 
   return (
     <div className="flex justify-center mt-5">
@@ -25,6 +26,7 @@ const ClientCard = async ({ params }) => {
           purchases={purchases}
           products={products}
           customerId={clientId}
+          treatments={treatments}
           modal="purchase"
         />
         {/* <div className="flex flex-col items-center mt-3">

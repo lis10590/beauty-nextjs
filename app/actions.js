@@ -14,6 +14,21 @@ import { auth } from "@/auth";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 
+// Efficiently convert all nested ObjectIds using a recursive function
+function convertObjectIdsToStrings(obj) {
+  if (obj && typeof obj === "object") {
+    if (obj instanceof mongoose.Types.ObjectId) {
+      return obj.toString();
+    } else {
+      // Recursively convert nested objects
+      for (const key in obj) {
+        obj[key] = convertObjectIdsToStrings(obj[key]);
+      }
+    }
+  }
+  return obj;
+}
+
 export const loginUser = async (formData) => {
   await signIn("credentials", {
     /* redirect: true,
@@ -36,6 +51,7 @@ export const getCustomers = async (currentPage) => {
     const totalClients = await UserCustomer.countDocuments({
       userId,
     });
+    console.log(totalClients);
     const customers = await UserCustomer.find({ userId })
       .skip(skip)
       .limit(pageSize)
@@ -43,6 +59,27 @@ export const getCustomers = async (currentPage) => {
 
     const totalPages = Math.ceil(totalClients / pageSize);
     return { customers, totalPages };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCustomersList = async () => {
+  try {
+    await connectDB();
+    const session = await auth();
+
+    const userId = new mongoose.Types.ObjectId(session.user.id);
+
+    const customers = await UserCustomer.find({ userId })
+
+      .populate("customerId")
+      .lean();
+
+    // Apply the conversion to the customers array
+    customers.forEach((customer) => convertObjectIdsToStrings(customer));
+
+    return customers;
   } catch (error) {
     console.log(error);
   }
@@ -174,21 +211,6 @@ export const getProductsForPurchases = async () => {
       .populate("productId")
       .lean();
 
-    // Efficiently convert all nested ObjectIds using a recursive function
-    function convertObjectIdsToStrings(obj) {
-      if (obj && typeof obj === "object") {
-        if (obj instanceof mongoose.Types.ObjectId) {
-          return obj.toString();
-        } else {
-          // Recursively convert nested objects
-          for (const key in obj) {
-            obj[key] = convertObjectIdsToStrings(obj[key]);
-          }
-        }
-      }
-      return obj;
-    }
-
     // Apply the conversion to the products array
     products.forEach((product) => convertObjectIdsToStrings(product));
 
@@ -287,6 +309,46 @@ export const getTreatments = async (currentPage) => {
   }
 };
 
+export const getTreatmentsList = async () => {
+  try {
+    await connectDB();
+    const session = await auth();
+
+    const userId = new mongoose.Types.ObjectId(session.user.id);
+    const treatments = await UserTreatment.find({ userId })
+      .populate("treatmentId")
+      .lean();
+
+    // Apply the conversion to the treatments array
+    treatments.forEach((treatment) => convertObjectIdsToStrings(treatment));
+
+    return treatments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//get treatments history and upcoming treatments of a client
+export const getTreatmentsByClient = async (id) => {
+  try {
+    await connectDB();
+    const session = await auth();
+    const userId = new mongoose.Types.ObjectId(session.user.id);
+    const customerId = new mongoose.Types.ObjectId(id);
+    const treatments = await Event.find({
+      $and: [{ userId }, { customerId }],
+    })
+      .populate("treatmentId")
+      .lean();
+
+    // Apply the conversion to the products array
+    treatments.forEach((treatment) => convertObjectIdsToStrings(treatment));
+
+    return treatments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //add a new treatment to a logged user
 
 export const addTreatment = async (treatment) => {
@@ -357,10 +419,12 @@ export const getEvents = async () => {
 
     const userId = new mongoose.Types.ObjectId(session.user.id);
 
-    const events = await Event.find({ userId }).populate([
-      "treatmentId",
-      "customerId",
-    ]);
+    const events = await Event.find({ userId })
+      .populate(["treatmentId", "customerId"])
+      .lean();
+
+    // Apply the conversion to the events array
+    events.forEach((event) => convertObjectIdsToStrings(event));
 
     return events;
   } catch (error) {
@@ -368,7 +432,38 @@ export const getEvents = async () => {
   }
 };
 
-//get purchases of a customer of a looged user
+export const updateEvent = async (formData) => {
+  try {
+    await connectDB();
+    const id = formData.get("id");
+    const obj = {
+      start: new Date(formData.get("start")),
+      end: new Date(formData.get("end")),
+    };
+
+    let customerId = formData.get("customers");
+    let treatmentId = formData.get("treatments");
+
+    if (customerId !== null) {
+      customerId = new mongoose.Types.ObjectId(customerId);
+      obj["customerId"] = customerId;
+    }
+    if (treatmentId !== null) {
+      treatmentId = new mongoose.Types.ObjectId(treatmentId);
+      obj["treatmentId"] = treatmentId;
+    }
+
+    console.log(obj);
+
+    await Event.findByIdAndUpdate(id, obj);
+    revalidatePath("/home");
+    return 200;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//get purchases of a customer of a logged user
 
 export const getPurchases = async (customerId) => {
   try {
@@ -380,20 +475,6 @@ export const getPurchases = async (customerId) => {
     const purchases = await Purchase.find({ userId, customerId })
       .populate("productId")
       .lean();
-    // Efficiently convert all nested ObjectIds using a recursive function
-    function convertObjectIdsToStrings(obj) {
-      if (obj && typeof obj === "object") {
-        if (obj instanceof mongoose.Types.ObjectId) {
-          return obj.toString();
-        } else {
-          // Recursively convert nested objects
-          for (const key in obj) {
-            obj[key] = convertObjectIdsToStrings(obj[key]);
-          }
-        }
-      }
-      return obj;
-    }
 
     // Apply the conversion to the products array
     purchases.forEach((purchase) => convertObjectIdsToStrings(purchase));

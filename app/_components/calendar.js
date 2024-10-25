@@ -1,54 +1,60 @@
 "use client";
-// import { useSelector, useDispatch } from "react-redux";
-// import { selectAllEvents, getAllEvents } from "../_utils/store/events";
+import { useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import UpdateEvent from "./updateEvent";
 
-import format from "date-fns/format";
-import getDay from "date-fns/getDay";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import styles from "../_styles/calendar.module.css";
+const Calendar = ({ events, treatments, customers }) => {
+  const [modalOpen, setModalOpen] = useState(false);
 
-const locales = {
-  "en-US": require("date-fns/locale/en-US"),
-};
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
-
-const BigCalendar = (props) => {
-  // const dispatch = useDispatch();
-  const saveChosenEvent = (event) => {
-    props.deleteModal(event._id);
+  const [chosenEvent, setChosenEvent] = useState({});
+  const [mockEvents, setMockEvents] = useState([
+    {
+      title: "event 1",
+      id: "1",
+      start: new Date("2024-06-27T10:00:00"),
+      end: new Date("2024-06-27T12:00:00"),
+    },
+    { title: "event 2", id: "2" },
+    { title: "event 3", id: "3" },
+    { title: "event 4", id: "4" },
+    { title: "event 5", id: "5" },
+  ]);
+  const handleDateClick = (arg) => {
+    console.log(arg);
   };
 
-  console.log(props.events);
+  const handleEventClick = (data) => {
+    setChosenEvent(data.event);
+    setModalOpen(true);
+  };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
   return (
-    <div className="d-flex justify-content-center">
-      <Calendar
-        className={styles.calendar}
-        localizer={localizer}
-        events={props.events}
-        startAccessor="start"
-        endAccessor="end"
-        // style={{
-        //   height: 400,
-        //   backgroundColor: "white",
-        //   marginBottom: "2rem",
-        // }}
-        selectable
-        onSelectEvent={(event) => {
-          saveChosenEvent(event);
-        }}
+    <>
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+        dateClick={handleDateClick}
+        selectable={true}
+        events={events}
+        editable={true}
+        eventClick={(data) => handleEventClick(data)}
+        selectMirror={true}
+        nowIndicator={true}
       />
-    </div>
+      <UpdateEvent
+        customers={customers}
+        treatments={treatments}
+        event={chosenEvent}
+        isOpen={modalOpen}
+        onClose={handleModalClose}
+      />
+    </>
   );
 };
 
-export default BigCalendar;
+export default Calendar;

@@ -1,5 +1,4 @@
 import Modal from "./modal";
-import Form from "./form";
 import { addPurchase } from "../actions";
 
 const AddPurchase = ({ isOpen, onClose, onAdd, products, customerId }) => {

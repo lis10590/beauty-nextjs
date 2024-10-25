@@ -1,9 +1,26 @@
-// "use client";
+import {
+  loginUser,
+  addCustomer,
+  addProduct,
+  addTreatment,
+  updateEvent,
+} from "../actions";
+import editIcon from "@/public/editIcon.svg";
+import closeIcon from "@/public/closeIcon.svg";
+import Image from "next/image";
 // import { useState } from "react";
-import { signIn } from "@/auth";
-import { loginUser, addCustomer } from "../actions";
 
-const Form = ({ fields, onSubmit, onClose, type, action }) => {
+const Form = ({ fields, onSubmit, onClose, type, action, event }) => {
+  // const [showEditTreatment, setShowEditTreatment] = useState(false);
+  // const [showEditCustomer, setShowEditCustomer] = useState(false);
+
+  // const handleShowEditTreatment = () => {
+  //   setShowEditTreatment(!showEditTreatment);
+  // };
+  // const handleShowEditCustomer = () => {
+  //   setShowEditCustomer(!showEditCustomer);
+  // };
+  // console.log(fields);
   // const [formData, setFormData] = useState(() =>
   //   fields.reduce(
   //     (acc, field) => ({ ...acc, [field.name]: field.defaultValue }),
@@ -44,39 +61,113 @@ const Form = ({ fields, onSubmit, onClose, type, action }) => {
       addCustomer(formaData);
       onClose();
     }
-    if (action == "login") {
+    if (action === "login") {
       loginUser(formaData);
     }
-  };
+    if (action === "addProduct") {
+      addProduct(formaData);
+      onClose();
+    }
 
+    if (action === "addTreatment") {
+      addTreatment(formaData);
+      onClose();
+    }
+    if (action == "updateEvent") {
+      if (event !== undefined) {
+        formaData.append("id", event.id);
+      }
+
+      updateEvent(formaData);
+      onClose();
+    }
+  };
   return (
     <form action={handleAction} className="mx-4 my-4">
       {fields.map((field) => (
         <div key={field.name}>
           {field.type === "select" ? (
-            <select
-              id={field.name}
-              name={field.name}
-              //value={formData[field.name]}
-              //onChange={handleChange}
-            >
-              {field.options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div>
+              {field.name === "customers" && (
+                <div className="flex">
+                  <p className="me-2">
+                    Customer Name:{" "}
+                    {event._def !== undefined &&
+                      event._def.extendedProps.customerId.fullName}
+                  </p>
+                  <Image
+                    onClick={handleShowEditCustomer}
+                    src={showEditCustomer ? closeIcon : editIcon}
+                    alt="edit or close icon"
+                    width={24}
+                    height={24}
+                  />
+                </div>
+              )}
+              {field.name === "treatments" && (
+                <div className="flex">
+                  <p className="me-2">
+                    Treatment:{" "}
+                    {event._def !== undefined &&
+                      event._def.extendedProps.treatmentId.treatmentName}
+                  </p>
+                  <Image
+                    onClick={handleShowEditTreatment}
+                    src={showEditTreatment ? closeIcon : editIcon}
+                    alt="edit or close icon"
+                    width={24}
+                    height={24}
+                  />
+                </div>
+              )}
+              {(showEditCustomer && field.name === "customers" && (
+                <select
+                  id={field.name}
+                  name={field.name}
+                  //value={formData[field.name]}
+                  //onChange={handleChange}
+                >
+                  {field.options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              )) ||
+                (showEditTreatment && field.name === "treatments" && (
+                  <select
+                    id={field.name}
+                    name={field.name}
+                    //value={formData[field.name]}
+                    //onChange={handleChange}
+                  >
+                    {field.options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                ))}
+            </div>
           ) : (
-            <input
-              className="mt-3 px-3 py-2 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300"
-              id={field.name}
-              name={field.name}
-              type={field.type}
-              //value={formData[field.name]}
-              //onChange={handleChange}
-              placeholder={field.placeholder}
-              required
-            />
+            <>
+              <label htmlFor={field.name}>{field.label}</label>
+              <input
+                className="mt-3 px-3 py-2 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300"
+                id={field.name}
+                name={field.name}
+                type={field.type}
+                defaultValue={field.defaultValue}
+                // value={
+                //   field.type === "datetime-local"
+                //     ? formData[field.name]?.toISOString()
+                //     : formData[field.name]
+                // }
+                // onChange={handleChange}
+                placeholder={field.placeholder}
+                required
+              />
+            </>
           )}
           {/* Optional: Display validation errors for this field */}
         </div>
@@ -98,7 +189,9 @@ const Form = ({ fields, onSubmit, onClose, type, action }) => {
           >
             Close
           </button>
-          <button className="bg-red-300 rounded-md px-3 py-2">Save</button>
+          <button className="bg-red-300 rounded-md px-3 py-2">
+            {type === "updateEvent" ? "Update" : "Save"}
+          </button>
         </div>
       )}
     </form>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import AddClient from "./addClient";
 import AddProduct from "./addProduct";
 import AddPurchase from "./addPurchase";
+import AddTreatment from "./addTreatment";
 // import { addNewClient } from "../_utils/requests/clients";
 import { addNewProduct } from "../_utils/requests/products";
 import { useRouter } from "next/navigation";
@@ -49,10 +50,13 @@ const AddButton = ({ modal, products, customerId }) => {
   const handleProductAddition = (newProduct) => {
     addNewProduct(newProduct);
     setIsOpen(false);
-    router.refresh();
   };
 
   const handlePurchaseAddition = (newPurchase) => {
+    setIsOpen(false);
+  };
+
+  const handleTreatmentAddition = (newTreatment) => {
     setIsOpen(false);
   };
 
@@ -70,6 +74,10 @@ const AddButton = ({ modal, products, customerId }) => {
       addFunction: handlePurchaseAddition,
       products: products,
       customerId: customerId,
+    },
+    treatment: {
+      component: AddTreatment,
+      addFunction: handleTreatmentAddition,
     },
   };
 

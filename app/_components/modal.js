@@ -8,7 +8,7 @@ const Modal = ({ heading, children, isOpen, onClose }) => {
     <div
       id="wrapper"
       className={`fixed inset-0 bg-opacity-25 bg-gray-900 backdrop-blur-sm flex flex-col justify-center items-center  ${
-        isOpen ? "opacity-100" : "opacity-0"
+        isOpen ? "opacity-100 z-10" : "opacity-0 -z-10"
       }`}
       onClick={handleClose}
     >

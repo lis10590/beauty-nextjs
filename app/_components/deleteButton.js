@@ -3,10 +3,8 @@ import Image from "next/image";
 import trashIcon from "@/public/trashIcon.svg";
 import { useState } from "react";
 import DeleteModal from "./deleteModal";
-import { deleteClient } from "../_utils/requests/clients";
-import { deleteProduct } from "../_utils/requests/products";
 import { useRouter } from "next/navigation";
-import { deleteCustomer } from "../actions";
+import { deleteCustomer, deleteProduct, deleteTreatment } from "../actions";
 
 const DeleteButton = ({ id, modal }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -34,7 +32,11 @@ const DeleteButton = ({ id, modal }) => {
   const deleteProductHandler = (id) => {
     deleteProduct(id);
     setDeleteModalOpen(false);
-    router.refresh();
+  };
+
+  const deleteTreatmentHandler = (id) => {
+    deleteTreatment(id);
+    setDeleteModalOpen(false);
   };
 
   const deleteComponentMap = {
@@ -43,6 +45,9 @@ const DeleteButton = ({ id, modal }) => {
     },
     product: {
       deleteFunction: deleteProductHandler,
+    },
+    treatment: {
+      deleteFunction: deleteTreatmentHandler,
     },
   };
 

@@ -52,6 +52,7 @@ const AddProduct = ({ isOpen, onClose, onAdd }) => {
         fields={productFields}
         onClose={onClose}
         onSubmit={addNewProductHandler}
+        action="addProduct"
       />
     </Modal>
   );
